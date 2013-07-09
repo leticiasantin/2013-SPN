@@ -24,5 +24,5 @@
     }
 </script>
 
-<input type="button" onclick="javascript:solicitation()" value="Solicitar Serviço de ${dPage.profileId}"/>
+<input type="button" onclick="javascript:solicitation()" value="Solicitar Serviço de ${dPage.user.name}"/>
 

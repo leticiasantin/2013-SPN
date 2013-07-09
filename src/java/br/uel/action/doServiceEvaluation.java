@@ -1,9 +1,11 @@
 package br.uel.action;
 
 import br.uel.controller.Command;
+import br.uel.database.CategoryDAO;
 import br.uel.database.DAOFactory;
 import br.uel.database.ServiceDAO;
 import br.uel.database.ServiceEvaluationDAO;
+import br.uel.entity.Category;
 import br.uel.entity.Service;
 import br.uel.entity.ServiceEvaluation;
 import br.uel.entity.User;
@@ -17,14 +19,14 @@ import javax.servlet.http.HttpServletResponse;
  * @author leticia
  */
 public class doServiceEvaluation extends Command {
-    
+
     public doServiceEvaluation(HttpServletRequest request, HttpServletResponse response) {
         super.init(request, response);
     }
-    
+
     public doServiceEvaluation() {
     }
-    
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.init(request, response);
@@ -35,12 +37,11 @@ public class doServiceEvaluation extends Command {
             setClientEvaluation();
         } else if (m.equalsIgnoreCase("providerEvaluation")) {
             setProviderEvaluation();
-        }
-        else if(m.equals("form")) {
+        } else if (m.equals("form")) {
             setForm();
         }
     }
-    
+
     private void listPendingEvaluation() {
         User u = (User) request.getSession().getAttribute("user");
         ServiceDAO sDao;
@@ -53,18 +54,20 @@ public class doServiceEvaluation extends Command {
         templateView.setContent("evaluationPendencies");
         super.dispatcher();
     }
-    
+
     private void setClientEvaluation() {
         User u = (User) request.getSession().getAttribute("user");
         ServiceEvaluation se = this.getObjServiceEvaluaton();
-                Logger.getInstance().setLog("teste date start:"+se.getcRealStartDate() + " finish: "
-                        + se.getcRealFinishDate());
+        Logger.getInstance().setLog("teste date start:" + se.getcRealStartDate() + " finish: "
+                + se.getcRealFinishDate());
         ServiceEvaluationDAO sEvDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         sEvDao = (ServiceEvaluationDAO) factory.getDAOObject(DAOFactory.DAODataType.ServiceEvaluationDAO);
         sEvDao.create(se);
+        this.listPendingEvaluation();
+
     }
-    
+
     private void setProviderEvaluation() {
         User u = (User) request.getSession().getAttribute("user");
         ServiceEvaluation se = this.getObjServiceEvaluaton();
@@ -72,12 +75,16 @@ public class doServiceEvaluation extends Command {
         DAOFactory factory = DAOFactory.getDAOFactory();
         sEvDao = (ServiceEvaluationDAO) factory.getDAOObject(DAOFactory.DAODataType.ServiceEvaluationDAO);
         sEvDao.update(se);
+        this.listPendingEvaluation();
     }
-    
+
     private ServiceEvaluation getObjServiceEvaluaton() {
         ServiceEvaluation sEv = new ServiceEvaluation();
         if (request.getParameter("serviceId") != null) {
             sEv.setServiceId(Integer.parseInt(request.getParameter("serviceId")));
+        }
+        if (request.getParameter("category") != null) {
+            sEv.setCatId(Integer.parseInt(request.getParameter("category")));
         }
         if (request.getParameter("cPrice") != null) {
             sEv.setcPrice(Integer.parseInt(request.getParameter("cPrice")));
@@ -116,8 +123,20 @@ public class doServiceEvaluation extends Command {
     }
 
     private void setForm() {
+        if (request.getParameter("userType").equalsIgnoreCase("p")) {
+            Logger.getInstance().setLog("usertyType == p" + request.getParameter("userType"));
+            CategoryDAO cDao;
+            DAOFactory factory = DAOFactory.getDAOFactory();
+            cDao = (CategoryDAO) factory.getDAOObject(DAOFactory.DAODataType.CategoryDAO);
+           
+            List<Category> categories = null;
+            User user = (User) request.getSession().getAttribute("user");
+            Logger.getInstance().setLog("categories userId: "+user.getUserId());
+            categories = cDao.list(user.getUserId());
+            request.setAttribute("userCategories", categories);
+            Logger.getInstance().setLog("tamano categoria "+categories.size());
+        }
         templateView.setContent("evaluation");
         super.dispatcher();
-        
-      }
+    }
 }

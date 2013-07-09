@@ -68,7 +68,7 @@ public class PgUserDAO extends UserDAO {
 
     @Override
     public List<User> list(boolean orderByNome) throws DAOException {
-        String query = "SELECT user_id, login, name FROM spn.user";
+        String query = "SELECT * FROM spn.user WHERE login <> 'admin'";
         if (orderByNome) {
             query += " ORDER BY name";
         } else {
@@ -84,11 +84,7 @@ public class PgUserDAO extends UserDAO {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                User u = new User();
-
-                u.setUserId(rs.getInt("user_id"));
-                u.setLogin(rs.getString("login"));
-                u.setName(rs.getString("name"));
+                User u = this.setObjUser(rs);
                 users.add(u);
             }
 
@@ -336,4 +332,6 @@ public class PgUserDAO extends UserDAO {
         return false;
     
     }
+
+   
 }

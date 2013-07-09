@@ -35,7 +35,6 @@ public class doCategoryCrud extends Command {
         super.init(request, response);
         String m = request.getParameter("m");
         if (m.equalsIgnoreCase("save")) {
-          
             save(); 
         } else if (m.equalsIgnoreCase("update")) {
             /*
@@ -96,7 +95,9 @@ public class doCategoryCrud extends Command {
         Category category = new Category();
         category.setName(request.getParameter("name"));
         category.setParentId(Integer.parseInt(request.getParameter("parentId")));
-        category.setCatId(Integer.parseInt(request.getParameter("catId")));
+        if (request.getParameter("catId") != null && !request.getParameter("catId").isEmpty()){
+            category.setCatId(Integer.parseInt(request.getParameter("catId")));
+        }
         CategoryDAO cDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         cDao = (CategoryDAO) factory.getDAOObject(DAOFactory.DAODataType.CategoryDAO);
@@ -116,7 +117,8 @@ public class doCategoryCrud extends Command {
             request.getSession().setAttribute("catList", list);
             templateView.setContent("categoryCrud").setTitle("Editar Categorias");
     }
-
+    
+  
     private void delete() {
         int cId = Integer.parseInt(request.getParameter("catId"));
         CategoryDAO cDao;

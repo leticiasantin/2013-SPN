@@ -28,7 +28,6 @@
                 
                 $("#submit").click(function(){
                    $("#acceptForm").submit();
-                  /* window.close();*/
                 });
                
             });

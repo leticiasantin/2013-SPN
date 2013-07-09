@@ -17,7 +17,6 @@
 <table style=" border: black 2px;">
     <tr>
         <td id="searchProviders">Buscar Prestadores</td>
-        <td>Guest Head2</td>
-        <td>Guest Head3</td>
+        
     </tr>
 </table>

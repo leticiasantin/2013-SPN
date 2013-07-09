@@ -38,4 +38,6 @@ public abstract class UserDAO {
     public abstract void updateStatus(int userId);
 
     public abstract List<User> listDeletedUsers();
+
+   
 }

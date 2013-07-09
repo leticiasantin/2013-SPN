@@ -239,8 +239,6 @@ public class PgCategoryDAO extends CategoryDAO {
             }
             conn.close();
 
-
-
         } catch (SQLException ex) {
             Logger.getLogger(PgCategoryDAO.class
                     .getName()).log(Level.SEVERE, null, ex);

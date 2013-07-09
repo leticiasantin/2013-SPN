@@ -6,6 +6,7 @@
         <ul>
             <li id="welcome"> Home </li>
             <li id="category"> Categorias </li>
+            <li id="usersList"> Relação de Usuários </li>
             <li id="delUsers"> Usuarios Excluídos</li>
             <li id="logout">Logout</li> 
         </ul> 

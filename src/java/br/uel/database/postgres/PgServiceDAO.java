@@ -205,8 +205,8 @@ public class PgServiceDAO extends ServiceDAO {
             while (rs.next()) {
                 CompletedService compServ = new CompletedService();
                 Service service = this.getService(rs);
-                service.setClientName("client_name");
-                service.setClientAddress("client_address");
+                service.setClientName(rs.getString("client_name"));
+                service.setClientAddress(rs.getString("client_address"));
                 compServ.setService(service);
                 compServ.setServiceEvaluation(this.getServiceEvaluation(rs));
                 completedServices.add(compServ);
@@ -233,8 +233,8 @@ public class PgServiceDAO extends ServiceDAO {
             while (rs.next()) {
                 CompletedService compServ = new CompletedService();
                 Service service = this.getService(rs);
-                service.setProviderName("provider_name");
-                service.setProviderAddress("provider_address");
+                service.setProviderName(rs.getString("provider_name"));
+                service.setProviderAddress(rs.getString("provider_address"));
                 compServ.setService(service);
                 compServ.setServiceEvaluation(this.getServiceEvaluation(rs));
                 completedServices.add(compServ);

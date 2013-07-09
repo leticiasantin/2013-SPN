@@ -16,14 +16,14 @@
             <caption><h2>Dados do Usuário</h2></caption>
             <tr>
                 <td>Nome:</td>
-                <td><h3>${dPage.user.name}</h3></td>
+                <td>${dPage.user.name}</td>
             </tr>
             <tr>
                 <td>Endereço:</td>
                 <td>
-                    <h3>${dPage.user.street},${dPage.user.number} ${dPage.user.complement}<br/>
+                    ${dPage.user.street},${dPage.user.number} ${dPage.user.complement}<br/>
                         ${dPage.user.neighborhood}, ${dPage.user.city}-${dPage.user.state}            
-                    </h3>
+                    
                 </td>
             </tr>
             </c:if>

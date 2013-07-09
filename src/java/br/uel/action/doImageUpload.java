@@ -130,6 +130,10 @@ public class doImageUpload extends HttpServlet {
                                         pDao.createDivulgationPagePicture(pic);
                                         id += "-"+pic.getPictureId();
                                     }
+                                  else if (type.contains("services")) {
+                                      id = String.valueOf(pic.getPictureId());
+                                      
+                                  }
 
 
                                 /* para inserir o nome das imagens de serviço é 

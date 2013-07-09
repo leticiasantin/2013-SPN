@@ -6,6 +6,8 @@ import br.uel.database.ServiceDAO;
 import br.uel.entity.Service;
 import br.uel.entity.User;
 import br.uel.log.Logger;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -76,19 +78,25 @@ public class doSolicitationAction extends Command {
 
     }
 
-    private void ProviderReject() {
+    private void ProviderReject() throws IOException {
         Service service = this.getObjService();
         ServiceDAO sDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         sDao = (ServiceDAO) factory.getDAOObject(DAOFactory.DAODataType.ServiceDAO);
         sDao.rejectSolicitation(service);
+          PrintWriter out = response.getWriter();
+            out.println("<!DOCTYPE html>");
+            out.println("<html><body>Solicitação rejeitada com sucesso</body></html>  ");
     }
 
-    private void ProviderAccept() {
+    private void ProviderAccept() throws IOException {
         Service service = this.getObjService();
         ServiceDAO sDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         sDao = (ServiceDAO) factory.getDAOObject(DAOFactory.DAODataType.ServiceDAO);
         sDao.acceptSolicitation(service);
+            PrintWriter out = response.getWriter();
+            out.println("<!DOCTYPE html>");
+            out.println("<html><body>Solicitação aceitada com sucesso</body></html>  ");
     }
 }

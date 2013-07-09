@@ -1,6 +1,20 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="category" class="br.uel.entity.Category"/>
 <form action="Controller" method="GET">
     <caption><h2>Avaliação do Prestador Codigo do serviço ${param.serviceId} </h2></caption>
     <table>
+        <tr>
+            <td>Categoria do Serviço</td>
+            <td>
+                <select name="category" id="select">
+                    <option id="catId" name="catId" value="0"></option>    
+                    <c:forEach var="category" items="${userCategories}">
+                        <option id="cat" name="cat" value="${category.catId}">${category.name}</option>    
+                    </c:forEach>
+                </select>
+
+            </td>
+        </tr>
         <tr>
             <td>Pagamento Adequado</td>
             <td><select name="pAppropriatePayment">
@@ -58,7 +72,7 @@
             <td colspan="2"><textarea name="pComment" maxlenght="1024" rows="10" cols="50" ></textarea></td>
         </tr>
     </table>
-     <a href="javascript:openPopup('imageUpload.jsp?type=s&id=${param.serviceId}&userType=p');">Inserir Foto</a>
+    <a href="javascript:openPopup('imageUpload.jsp?type=s&id=${param.serviceId}&userType=p');">Inserir Foto</a>
     <input type="hidden" name="serviceId" value="${param.serviceId}">
     <input type="hidden" name="c" value="doServiceEvaluation">
     <input type="hidden" name="m" value="providerEvaluation">

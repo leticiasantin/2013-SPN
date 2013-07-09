@@ -52,9 +52,12 @@ public class PgServiceEvaluationDAO extends ServiceEvaluationDAO {
     @Override
     public void update(ServiceEvaluation se) {
         try {
-            String query = "UPDATE spn.service_evaluation SET p_appropriate_payment=?, "
+            String query = "BEGIN; "
+                    + "UPDATE spn.service_evaluation SET p_appropriate_payment=?, "
                     + " p_materials_supply=?, p_communication_with_client=?, p_comment=?,"
-                    + " p_dat_assessment='NOW' WHERE service_id=?;";
+                    + " p_dat_assessment='NOW' WHERE service_id=?;"
+                    + " UPDATE spn.service SET category_id = ? WHERE service_id = ?; "
+                    + "COMMIT";
             Connection conn = daoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, se.getpAppropriatePayment());
@@ -62,12 +65,13 @@ public class PgServiceEvaluationDAO extends ServiceEvaluationDAO {
             ps.setInt(3, se.getpComunicationWithClient());
             ps.setString(4, se.getpComment());
             ps.setInt(5, se.getServiceId());
+            ps.setInt(6,se.getCatId());
+            ps.setInt(7,se.getServiceId());
             ps.executeUpdate();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(PgServiceEvaluationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
  
 }

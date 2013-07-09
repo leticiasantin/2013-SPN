@@ -11,6 +11,11 @@ $(document).ready(function() {
         $("#m").val('logout');
         $("#formHeader").submit();
     });
+    $("#usersList").click(function() {
+        $("#c").val('doUserSCRUD');
+        $("#m").val('all');
+        $("#formHeader").submit();
+    });
     $("#delUsers").click(function() {
         $(window.document.location).attr('href', "Controller?c=doUserSCRUD&m=deletedUsers");
     });

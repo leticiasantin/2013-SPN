@@ -6,7 +6,6 @@ import br.uel.database.ServiceDAO;
 import br.uel.entity.CompletedService;
 import br.uel.entity.Service;
 import br.uel.entity.User;
-import br.uel.log.Logger;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,17 +53,23 @@ public class doServiceCrud extends Command {
     }
 
     private void completedServiceLists() {
-        User u = (User) request.getSession().getAttribute("user");
+
+        int userId;
+        if (request.getParameter("uId") != null && !request.getParameter("uId").isEmpty()) {
+            userId = Integer.parseInt(request.getParameter("uId"));
+        } else {
+            User u = (User) request.getSession().getAttribute("user");
+            userId = u.getUserId();
+        }
+
         ServiceDAO sDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         sDao = (ServiceDAO) factory.getDAOObject(DAOFactory.DAODataType.ServiceDAO);
-        List<CompletedService> asProviderList = sDao.completedServiceProviderList(u.getUserId());
+        List<CompletedService> asProviderList = sDao.completedServiceProviderList(userId);
+        request.setAttribute("asProviderList", asProviderList);
         
-        
-        
-        List<CompletedService> asClientList = sDao.completedServiceClientList(u.getUserId());
-        request.setAttribute("asProviderList",asProviderList);
-        request.setAttribute("asClientList",asClientList);
+        List<CompletedService> asClientList = sDao.completedServiceClientList(userId);       
+        request.setAttribute("asClientList", asClientList);
         templateView.setContent("completedServices").setTitle("Serviços Completos");
         super.dispatcher();
     }

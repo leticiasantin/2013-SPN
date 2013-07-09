@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class ServiceEvaluation {
     private int serviceId;
+    private int catId;
     private int cPrice;
     private int cRespectForDeadlines;
     private int cQualityOfService;
@@ -138,6 +139,14 @@ public class ServiceEvaluation {
 
     public void setpPictures(List<Picture> pPictures) {
         this.pPictures = pPictures;
+    }
+
+    public int getCatId() {
+        return catId;
+    }
+
+    public void setCatId(int catId) {
+        this.catId = catId;
     }
  
     
