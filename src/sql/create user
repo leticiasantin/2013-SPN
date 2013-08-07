@@ -1,0 +1,15 @@
+﻿CREATE SCHEMA spn
+       AUTHORIZATION leticiacsantin;
+COMMENT ON SCHEMA spn
+  IS 'Trabalho de Banco de Dados 3º bimestre 2013';
+
+
+CREATE TABLE spn.user(
+uid SERIAL PRIMARY KEY NOT NULL,
+fname VARCHAR(50) NOT NULL,
+login VARCHAR(15) NOT NULL UNIQUE,
+password VARCHAR(8) NOT NULL
+);
+
+
+  

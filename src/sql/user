@@ -1,0 +1,19 @@
+﻿CREATE SCHEMA spn
+  AUTHORIZATION postgres;
+
+COMMENT ON SCHEMA spn
+  IS 'Trabalho de Banco de Dados 3º bimestre 2013';
+
+
+CREATE TABLE spn."user"
+(
+  uid serial NOT NULL,
+  fname character varying(50) NOT NULL,
+  login character varying(15) NOT NULL,
+  password character varying(8) NOT NULL,
+  CONSTRAINT user_pkey PRIMARY KEY (uid ),
+  CONSTRAINT user_login_key UNIQUE (login )
+)
+WITH (
+  OIDS=FALSE
+);
