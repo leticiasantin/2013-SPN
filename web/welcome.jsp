@@ -16,7 +16,7 @@
         <jsp:useBean id="user" class="br.uel.entity.User" scope="session"/>
 
         <c:choose>
-            <c:when test="${not empty user.uid}">
+            <c:when test="${not empty user.userId}">
                 <h1>Welcome ${user.name}!</h1>
             </c:when>
             <c:otherwise>

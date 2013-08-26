@@ -1,10 +1,7 @@
-/*
- * Para qualquer form verifica se está salvando ou alteranto
- * @returns void
- * 
- */
-
-function ready(){
-               
- 
-};
+function clearOption(selectId) {
+    var x = document.getElementById(selectId)
+    while (x.length > 0)
+    {
+        x.remove(x.length - 1);
+    }
+}

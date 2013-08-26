@@ -9,18 +9,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>SPN - SERVICE PROVIDER NETWORK</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        
-        <form method="post" name="formLogin" action="ServeletController">
+        <form method="post" name="formLogin" action="Controller">
             Login <input type="text" size="20" name="login"><br />
             Senha <input type="password" size="20" name="password"><br />
             <input type="submit" value="Ok">
-            <input type="hidden" value="doLogin" id="action" name="action" />
+            <input type="hidden" value="doLog" id="c" name="c" />
+            <input type="hidden" value="i" id="m" name="m" />
         </form>
-       
+
         <a href="userCrud.jsp">Cadastrar usuário</a>
     </body>
 </html>

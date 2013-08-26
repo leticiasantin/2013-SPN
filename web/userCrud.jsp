@@ -10,36 +10,23 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Cadastro de Usuários</title>
-        <script  src="js/jquery-2.0.3.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('reset').click(function() {
-                    $('password').val("");
-                    $('login').val("");
-                    $('name').val("");
-
-                });
-            });
-        </script> 
-
+        <script  src="js/jquery/js/jquery.js"></script>
+        <script  src="js/jquery/js/jquery-ui.js"></script>        
+        <link type="text/css" href="js/jquery/css/south-street/jquery-ui.css" rel="stylesheet" />
+        <script src="js/toMD5.js"></script>
+        <script  src="js/default.js"></script>
+        <script  src="js/user/form.js"></script>
     </head>
     <body>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
         <jsp:useBean id="user" class="br.uel.entity.User" scope="request"/>
         <p> <h1>Cadastro de Usuários </h1> </p>
-    <form name="formUser" method="post" action="ServeletController">
-        <input type="hidden" id="uid" name="uid" value="${user.uid}" />  
-        Nome <input type="text" size="50" name="name" value="${user.name}"> <br />
-        Login <input type="text" size="15" name="login" value="${user.login}"> <br />
-        Senha <input type="password" size="8" name="password"> <br />
-        <input type="submit" value="Ok"/>
-        <input type="button" id="reset" value="Limpar"/>
-        
-       
-        
+    <form name="formUser" method="post" action="Controller">
+        <jsp:include page = "forms/user.jsp" />  
+        <input type="submit" id="submit" value="Ok" />
+        <input type="reset" id="reset" value="Limpar"/>
         <input type="hidden" value="doUserSCRUD" id="c" name="c" />
-        <input type="hidden" value="s" id="m" name="m" />
-        user name = ${user.name}
+        <input type="hidden" value="save" id="m" name="m" />
     </form>
 </body>
 </html>
