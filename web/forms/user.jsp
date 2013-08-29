@@ -9,7 +9,7 @@
 
     <tr>
         <td> Data Nasc </td>
-        <td> <input type="text" id="dtOfBirth" value="${user.dtOfBirth}"/>       </td>
+        <td> <input type="text" id="dtOfBirth" name="dtOfBirth" value="${user.dtOfBirth}"/>       </td>
     </tr>
      <tr>
         <td>Login</td>
@@ -37,7 +37,7 @@
     </tr>
     <tr>
         <td>CEP: </td>
-        <td><input name="zipcode" type="text" id="zipcode" maxlength="9" value="${user.zipCode}" > </td>
+        <td><input name="zipcode" type="text" id="zipcode" maxlength="8" value="${user.zipCode}" > </td>
     </tr>
     <tr>
         <td>Logradouro: </td>

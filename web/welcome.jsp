@@ -12,9 +12,11 @@
         <title>JSP Page</title>
     </head>
     <body>
+        
+
         <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
         <jsp:useBean id="user" class="br.uel.entity.User" scope="session"/>
-
+        <c:import url="header.jsp" />
         <c:choose>
             <c:when test="${not empty user.userId}">
                 <h1>Welcome ${user.name}!</h1>
@@ -23,5 +25,6 @@
                 <h1>Login error!</h1>
             </c:otherwise>
         </c:choose>
+                <a href="userCrud.jsp" >click</a>
     </body>
 </html>

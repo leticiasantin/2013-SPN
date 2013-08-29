@@ -17,7 +17,7 @@
             Senha <input type="password" size="20" name="password"><br />
             <input type="submit" value="Ok">
             <input type="hidden" value="doLog" id="c" name="c" />
-            <input type="hidden" value="i" id="m" name="m" />
+            <input type="hidden" value="login" id="m" name="m" />
         </form>
 
         <a href="userCrud.jsp">Cadastrar usuário</a>

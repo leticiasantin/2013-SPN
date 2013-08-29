@@ -5,7 +5,7 @@
 package br.uel.database;
 
 import br.uel.entity.User;
-import java.sql.Connection;
+import java.util.List;
 
 /**
  *
@@ -13,13 +13,21 @@ import java.sql.Connection;
  */
 public abstract class UserDAO {
     
-    Connection conn;
+    protected DAOFactory daoFactory;
     
-    public abstract boolean create(User u);
-    public abstract boolean update(User u);
+    public abstract void create(User u) throws DAOException;
+    
+    public abstract List<User> list(boolean orderByNome) throws DAOException;
+    
+    public abstract User read(int uid) throws DAOException;
+    
+    public abstract void update(User u) throws DAOException;
+    
+    public abstract void delete(int uid) throws DAOException;
+    
+   public abstract boolean userExistsById(int uid);
 
-    public boolean readByLogin(String parameter) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+    public abstract boolean userExists(String login, String password);
+
+    public abstract User readByLogin(String login) ;
 }

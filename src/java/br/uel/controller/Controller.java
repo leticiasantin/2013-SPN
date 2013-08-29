@@ -30,19 +30,19 @@ public class Controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//            System.out.println(Arrays.asList(request));
-            String c = request.getParameter("c");
-            String pathClassName = "br.uel.action." + c;
-            Logger.getInstance().setLog("Action: "+ pathClassName);
-             try {
-                 Class clas = Class.forName(pathClassName);
-                 Command command = (Command) clas.newInstance();
-                 command.execute(request, response);
-             } catch (Exception e) {
-                 Logger.getInstance().setLog("erro no controller");
-                 throw new ServletException("A lógica de "
-                         + "negócios causou uma exceção", e);
-             }
+        response.setContentType("text/html;charset=UTF-8");
+        System.out.println(Arrays.asList(request));
+        String c = request.getParameter("c");
+        String pathClassName = "br.uel.action." + c;
+        Logger.getInstance().setLog("Action: " + pathClassName);
+        try {
+            Class clas = Class.forName(pathClassName);
+            Command command = (Command) clas.newInstance();
+            command.execute(request, response);
+        } catch (Exception e) {
+            throw new ServletException("A lógica de "
+                    + "negócios causou uma exceção", e);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

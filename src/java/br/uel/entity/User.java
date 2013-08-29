@@ -87,6 +87,10 @@ public class User {
     }
 
     public Integer getNumber() {
+        if (number == null )
+        {
+            return 0;
+        }
         return number;
     }
 

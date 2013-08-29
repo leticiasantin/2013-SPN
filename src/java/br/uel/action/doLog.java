@@ -5,8 +5,9 @@
 package br.uel.action;
 
 import br.uel.controller.Command;
+import br.uel.database.DAOFactory;
+import br.uel.database.UserDAO;
 import br.uel.entity.User;
-import br.uel.log.Logger;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,41 +26,36 @@ public class doLog implements Command{
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
                 //limpar objeto User possivelmente existente na session
-              this.request = request;
+        this.request = request;
         this.response = response;
-        char m = request.getParameter("m").toCharArray()[0];
-        switch (m) {
-            case 'i': //create or update
-                Logger.getInstance().setLog("attempt to save user");
-                this.doLogin();
-                break;
-            case 'r':
-                Logger.getInstance().setLog("read from DB");
-              
-                break;
-            case 'd':
-                break;
+        String m = request.getParameter("m");
+        if (m.equals("login")){
+            doLogin();
         }
-        
-        
-        
-       
-        
+        else 
+            if (m.equals("logout")){
+                
+            }
+            else{
+                
+            }
       }
 
     private void doLogin() throws ServletException, IOException {
        HttpSession session = request.getSession();
         session.removeAttribute("user");
-        
         //instanciar usuario
         User u = new User();
-        
         //setar usuario
         u.setLogin(request.getParameter("login"));
         u.setPassword(request.getParameter("password"));
-        br.uel.log.Logger.getInstance().setLog("attempted to login as login:" + u.getLogin() + " and pass: " + u.getPassword());
-        //autenticar usuario
+       
+        //autentica usuario e seta a sessao
         if (Authenticator.authenticate(u)) {
+            UserDAO uDao;
+            DAOFactory factory = DAOFactory.getDAOFactory();
+            uDao = (UserDAO) factory.getDAOObject(DAOFactory.DAODataType.UserDAO);
+            u = uDao.readByLogin(u.getLogin());
             session.setAttribute("user", u);
         }
         //redirecionar
