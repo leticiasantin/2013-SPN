@@ -1,0 +1,24 @@
+/* 
+    Document   : profile
+    Created on : Aug 30, 2013, 1:49:36 PM
+    Author     : leticia
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+.description {
+    background-color: red;
+/*    width: 500px;
+    height: 20px;*/
+    resize: none;
+    
+}
+
+table {
+    background-color: #dfd9c3;
+}
+

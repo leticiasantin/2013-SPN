@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  *
@@ -52,10 +53,13 @@ public class PgUserDAO extends UserDAO {
             if (rs.next()) {
                 u.setUserId(rs.getInt("user_id"));
                 Logger.getInstance().setLog("User (id " + u.getUserId() + ") created successfully");
+                PgClientDAO pDAO = new PgClientDAO(daoFactory);
+                pDAO.create(u.getUserId());
             }
             conn.close();
         } catch (SQLException ex) {
             Logger.getInstance().setLog(ex.getMessage() + ex.getCause());
+            throw new DAOException(ex.getMessage(), ex.getCause());
         }
     }
 
@@ -118,30 +122,40 @@ public class PgUserDAO extends UserDAO {
 
     @Override
     public void update(User u) throws DAOException {
-//        String query = "UPDATE sysservice.usuario SET login=?, nome=?, senha=? WHERE userId = ?";
-//        
-//        try {
-//            Connection conn = daoFactory.getConnection();
-//
-//            PreparedStatement ps = conn.prepareStatement(query);
-//            ps.setString(1, u.getLogin());
-//            ps.setString(2, u.getNome());
-//            ps.setString(3, u.getSenha());
-//            ps.setInt(4, u.getUid());
-//
-//            int rowCount = ps.executeUpdate();
-//            if (rowCount < 1)
-//                throw new DAOException("Usuário inexistente");
-//
-//            conn.close();
-//        } catch (SQLException ex) {
-//            throw new DAOException(ex.getMessage(), ex.getCause());
-//        }
+        try {
+            String query = "UPDATE spn.user SET name=?, login=?, password=?, dt_of_birth=?,"
+                    + " city=?, state=?, street=?, number=?, complements=?, "
+                    + " neighborhood=?, zip_code=?  WHERE user_id = ?;";
+            Logger.getInstance().setLog("query:" + query);
+            Connection conn = daoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, u.getName());
+            ps.setString(2, u.getLogin());
+            ps.setString(3, u.getPassword());
+            ps.setString(4, u.getDtOfBirth());
+            ps.setString(5, u.getCity());
+            ps.setString(6, u.getState());
+            ps.setString(7, u.getStreet());
+            ps.setInt(8, u.getNumber());
+            ps.setString(9, u.getComplement());
+            ps.setString(10, u.getNeighborhood());
+            ps.setString(11, u.getZipCode());
+            ps.setInt(12, u.getUserId());
+
+            int rowCount = ps.executeUpdate();
+            if (rowCount < 1) {
+                throw new DAOException("Usuário inexistente");
+            }
+
+            conn.close();
+        } catch (SQLException ex) {
+            throw new DAOException(ex.getMessage(), ex.getCause());
+        }
     }
 
     @Override
-    public void delete(int uid) throws DAOException {
-        String query = "DELETE FROM sysservice.usuario WHERE userId = ?";
+    public void deleteByUser(int uid) throws DAOException {
+        String query = "UPDATE spn.user SET status=false WHERE user_id = ?";
 
         try {
             Connection conn = daoFactory.getConnection();
@@ -160,7 +174,7 @@ public class PgUserDAO extends UserDAO {
         }
     }
 
-    private User setObjUser(ResultSet rs) throws SQLException {
+    public User setObjUser(ResultSet rs) throws SQLException {
         User u = new User();
         u.setUserId(rs.getInt("user_id"));
         u.setCity(rs.getString("city"));
@@ -174,8 +188,8 @@ public class PgUserDAO extends UserDAO {
         u.setStreet(rs.getString("street"));
         u.setUserId(rs.getInt(("user_id")));
         u.setZipCode(rs.getString(("zip_code")));
+        u.setStatus(rs.getBoolean("status"));
         return u;
-
     }
 
     @Override
@@ -196,6 +210,7 @@ public class PgUserDAO extends UserDAO {
         return false;
     }
 
+    @Override
     public boolean userExists(String login, String password) {
         String query = "SELECT user_id FROM spn.user WHERE login = ? AND password=? LIMIT 1";
         try {
@@ -236,5 +251,86 @@ public class PgUserDAO extends UserDAO {
         }
         return u;
 
+    }
+
+    @Override
+    public void updateStatus(int userId) {
+        try {
+            String query = "UPDATE spn.user SET status=?  WHERE user_id = ?;";
+            Connection conn = daoFactory.getConnection();
+
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setBoolean(1, true);
+            ps.setInt(2, userId);
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(PgUserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }
+
+    @Override
+    public void delete(int uid) throws DAOException {
+        try {
+            String query = "DELETE FROM spn.user WHERE user_id = ?;";
+                Connection conn = daoFactory.getConnection();
+
+                PreparedStatement ps = conn.prepareStatement(query);
+                ps.setInt(1, uid);
+
+                int rowCount = ps.executeUpdate();
+                if (rowCount < 1) {
+                    throw new DAOException("Usuário inexistente");
+                }
+
+                conn.close();
+        } catch (SQLException ex) {
+           throw new DAOException(ex.getMessage(),ex.getCause());
+        }
+    }
+
+    @Override
+    public List<User> listDeletedUsers() {
+         List<User> users = new ArrayList<User>();
+        try {
+            String query = "SELECT * FROM spn.user WHERE status=false";
+           
+            Connection conn = daoFactory.getConnection();
+
+            PreparedStatement ps = conn.prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User u = this.setObjUser(rs);
+                users.add(u);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(PgUserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return users;
+
+    }
+
+    @Override
+    public boolean userExistsByLogin(String login) {
+        try {
+            String query = "SELECT user_id FROM spn.user WHERE login = ? LIMIT 1";
+               Connection conn = daoFactory.getConnection();
+               PreparedStatement ps = conn.prepareStatement(query);
+               ps.setString(1, login);
+               ResultSet rs = ps.executeQuery();
+               if (rs.next()) {
+                   conn.close();
+                   return true;
+               }
+               
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(PgUserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    
     }
 }

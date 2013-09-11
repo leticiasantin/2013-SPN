@@ -1,0 +1,18 @@
+/* 
+    Document   : default
+    Created on : Aug 29, 2013, 11:42:38 PM
+    Author     : leticia
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+.divError {
+   text-align: center; 
+   background-color: orangered; 
+   width: 20%;
+}
+

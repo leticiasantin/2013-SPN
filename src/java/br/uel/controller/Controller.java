@@ -7,6 +7,7 @@ package br.uel.controller;
 import br.uel.log.Logger;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,9 +37,11 @@ public class Controller extends HttpServlet {
         String pathClassName = "br.uel.action." + c;
         Logger.getInstance().setLog("Action: " + pathClassName);
         try {
+           
             Class clas = Class.forName(pathClassName);
             Command command = (Command) clas.newInstance();
             command.execute(request, response);
+            Logger.getInstance().setLog("Succesfully: " + pathClassName);
         } catch (Exception e) {
             throw new ServletException("A lógica de "
                     + "negócios causou uma exceção", e);

@@ -1,19 +1,20 @@
-<%-- 
-    Document   : header
-    Created on : Aug 28, 2013, 10:31:44 PM
-    Author     : leticia
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<script src="js/jquery.js"></script>
+<script src="js/header.js"></script>
 <link type="text/css" href="css/header.css" rel="stylesheet" />
-       
-<nav id="menu">
-    <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">My Profile</a></li>
-        <li><a href="#">Dependences</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Contact Us</a></li>
-    </ul>
-</nav>
+<jsp:useBean id="user" class="br.uel.entity.User" scope="session"/>
+<form id="formHeader" name="formHeader" method="post" action="Controller">
+    <table id="menu">
+        <tr>
+            <td id="welcome">Home </td>
+            <td id="profile">  Meu Perfil</td>
+            <td id="pendencies">Pendencias</td>
+            <td id="services">Serviços</td>
+            <td id="category">Minhas Categorias</td>
+            <td id="logout">Logout</td> 
+            <td>${user.userId}</td>
+        </tr> 
+    </table>
+    <input type="hidden" id="uid" name="uid" value="${user.userId}"/>
+    <input type="hidden" id="c" name="c"/>
+    <input type="hidden" id="m" name="m"/>
+</form>

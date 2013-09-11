@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.uel.action;
 
 import br.uel.database.DAOFactory;
@@ -9,7 +5,6 @@ import br.uel.database.UserDAO;
 import br.uel.entity.User;
 
 /**
- *
  * @author Vanessa
  */
 public class Authenticator {

@@ -29,7 +29,7 @@ public abstract class DAOFactory {
 
     public enum DAODataType {
 
-        UserDAO, ServiceDAO, OfferDAO
+        UserDAO, ServiceDAO, OfferDAO,ProfileDAO, CategoryDAO, ProviderDAO
     }
 
     public static DAOFactory getDAOFactory() {
@@ -39,6 +39,7 @@ public abstract class DAOFactory {
             try {
                 //load a properties file
                 String pathRoot = System.getProperty("user.dir"); // $TOMCAT_HOME/bin
+                System.out.println(pathRoot);
                 prop.load(new FileInputStream(pathRoot + "/" + "bd.config.properties"));
 
                 //get the property value and print it out

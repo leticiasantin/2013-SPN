@@ -9,24 +9,18 @@ package br.uel.entity;
  * @author leticia
  */
 public class Provider {
-    private int userId;
-    private int profileId;
+    private int providerId;
 
-    public int getUserId() {
-        return userId;
+
+    public int getProviderId() {
+        return providerId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setProviderId(int providerId) {
+        this.providerId = providerId;
     }
 
-    public int getProfileId() {
-        return profileId;
-    }
+  
 
-    public void setProfileId(int profileId) {
-        this.profileId = profileId;
-    }
-    
     
 }

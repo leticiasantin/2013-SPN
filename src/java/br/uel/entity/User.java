@@ -4,6 +4,8 @@
  */
 package br.uel.entity;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Vanessa
@@ -21,6 +23,10 @@ public class User {
     private String complement;
     private String neighborhood;
     private String  zipCode;
+    
+    private ArrayList list;
+    private boolean status;
+    private char gender;
 
     public String getLogin() {
         return login;
@@ -87,10 +93,7 @@ public class User {
     }
 
     public Integer getNumber() {
-        if (number == null )
-        {
-            return 0;
-        }
+        
         return number;
     }
 
@@ -121,6 +124,34 @@ public class User {
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
+
+    public ArrayList getList() {
+        return list;
+    }
+
+    public void setList(ArrayList list) {
+        this.list = list;
+    }
+    
+
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+    
+    
 
    
     

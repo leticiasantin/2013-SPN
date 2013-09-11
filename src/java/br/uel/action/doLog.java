@@ -8,6 +8,7 @@ import br.uel.controller.Command;
 import br.uel.database.DAOFactory;
 import br.uel.database.UserDAO;
 import br.uel.entity.User;
+import br.uel.log.Logger;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -34,10 +35,7 @@ public class doLog implements Command{
         }
         else 
             if (m.equals("logout")){
-                
-            }
-            else{
-                
+                doLogout();
             }
       }
 
@@ -56,11 +54,20 @@ public class doLog implements Command{
             DAOFactory factory = DAOFactory.getDAOFactory();
             uDao = (UserDAO) factory.getDAOObject(DAOFactory.DAODataType.UserDAO);
             u = uDao.readByLogin(u.getLogin());
+            if (!u.getStatus()){
+                uDao.updateStatus(u.getUserId());
+            }
             session.setAttribute("user", u);
         }
+        Logger.getInstance().setLog("Success to execute: "+ this.getClass().getName());
         //redirecionar
         RequestDispatcher rdisp = request.getRequestDispatcher("welcome.jsp"); //"welcome-scriptlet.jsp"
         rdisp.forward(request, response);
+    }
+
+    private void doLogout() throws ServletException, IOException {
+        request.getSession().invalidate();
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
     
 }

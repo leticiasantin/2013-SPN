@@ -21,9 +21,12 @@ public class PgDAOFactory extends DAOFactory {
             // Este é um dos meios para registrar um driver
             Class.forName("org.postgresql.Driver");
 
-            String connString = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbUser;
+//            String connString = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbUser;
+//            String connString = "jdbc:postgresql://10.90.67.124:" + dbPort + "/" + dbUser;
+            String connString = "jdbc:postgresql://localhost:5432/SPN_DB";
             // Registrado o driver, vamos estabelecer uma conexão
-            conn = DriverManager.getConnection(connString, dbUser, dbPassword);
+            conn = DriverManager.getConnection(connString, "postgres", "postgres");
+//            conn = DriverManager.getConnection(connString, dbUser, dbPassword);
         } catch (SQLException ex) {
             throw new DAOException(ex.getMessage(), ex.getCause());
         } catch (ClassNotFoundException ex) {
@@ -39,8 +42,12 @@ public class PgDAOFactory extends DAOFactory {
         switch (dType) {
             case UserDAO:
                 return new PgUserDAO(this);
-//            case ServiceDAO:
-//                return new PgServiceDAO(this.conn);
+            case ProfileDAO:
+                return new PgProfileDAO(this);
+            case CategoryDAO:
+                return new PgCategoryDAO(this);
+            case ProviderDAO:
+                return new PgProviderDAO(this);
             default:
                 return null;
         }

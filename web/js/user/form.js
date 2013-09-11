@@ -9,10 +9,26 @@ $(document).ready(function() {
         loadCities(state);
     });
     $("#submit").click(function() {
-            $("#password").val(CryptoJS.MD5($("#password").val()));
+        $("#password").val(CryptoJS.MD5($("#password").val()));
+    });
+
+    $("#login").focusout(function() {
+        $.ajax({
+            type: "POST",
+            url: "Controller",
+            data: {
+                c: "doUserSCRUD",
+                m: "loginExist",
+                login: $("#login").val()
+            }
+        }).success(function(data) { 
+        }).error(function() {
+            alert('Login já existe por favor escolhar outro');
+        });
     });
 
 });
+
 
 function loadCities(state) {
     var cities;
