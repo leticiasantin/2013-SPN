@@ -19,16 +19,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author leticia
  */
-public class doUserSCRUD implements Command {
-
-    protected HttpServletRequest request;
-    protected HttpServletResponse response;
+public class doUserSCRUD extends Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        this.request = request;
-        this.response = response;
-
+        super.init(request, response);
         String m = request.getParameter("m");
         if (m.equalsIgnoreCase("save")) {
             Save();
@@ -46,30 +41,35 @@ public class doUserSCRUD implements Command {
     }
 
     public void Save() throws ServletException, IOException {
-
         User u = this.getObjUser();
         request.setAttribute("user", u);
-        String dispatcher = null;
         if (this.ValidateUserData(u)) {
             UserDAO uDao;
             try {
                 DAOFactory factory = DAOFactory.getDAOFactory();
                 uDao = (UserDAO) factory.getDAOObject(DAOFactory.DAODataType.UserDAO);
-
                 if (u.getUserId() == null) {
                     Logger.getInstance().setLog(" create ");
                     uDao.create(u);
                     Logger.getInstance().setLog("created");
                 } else {
+                    //marcou a opção para desativar a conta
+                  if (request.getParameter("disable") != null){
+                      uDao.deleteByUser(u.getUserId());
+                      templateView.setGuestAttributes();
+                      super.dispatcher();
+                  }
+                  else {
                     Logger.getInstance().setLog(" update " + u.getUserId());
                     uDao.update(u);
+                  }
                 }
-                dispatcher = "welcome.jsp";
+                templateView.setTitle("Perfil").setUserAttributes().setContent("userWelcome").setMessage("Usuário Salvo com sucesso").setFooter(null);
+                super.dispatcher();
             } catch (Exception ex) {
-                
+                templateView.setTitle("erro").setMessage("Erro ao salvar o cadastro").setMenu(null).setContent("error").setFooter(null);
             }
         } 
-        request.getRequestDispatcher("welcome.jsp").forward(request, response);
     }
 
     private User getObjUser() {
@@ -179,7 +179,8 @@ public class doUserSCRUD implements Command {
             uDao = (UserDAO) factory.getDAOObject(DAOFactory.DAODataType.UserDAO);
             List<User> delUsers = uDao.listDeletedUsers();
             request.setAttribute("delUsers", delUsers);
-            request.getRequestDispatcher("deletedUsers.jsp").forward(request, response);
+            templateView.setAdminAttributes().setTitle("Usuarios Excluidos").setContent("deletedUsers").setFooter(null);
+            super.dispatcher();
         }
 
 

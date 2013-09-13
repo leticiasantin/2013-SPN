@@ -8,7 +8,6 @@ import br.uel.controller.Command;
 import br.uel.database.DAOFactory;
 import br.uel.database.UserDAO;
 import br.uel.entity.User;
-import br.uel.log.Logger;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,9 +19,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author leticia
  */
-public class doLog implements Command{
-    private HttpServletRequest request;
-    private HttpServletResponse response;
+public class doLog extends Command{
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -47,7 +44,7 @@ public class doLog implements Command{
         //setar usuario
         u.setLogin(request.getParameter("login"));
         u.setPassword(request.getParameter("password"));
-       
+        String message = null;
         //autentica usuario e seta a sessao
         if (Authenticator.authenticate(u)) {
             UserDAO uDao;
@@ -56,13 +53,24 @@ public class doLog implements Command{
             u = uDao.readByLogin(u.getLogin());
             if (!u.getStatus()){
                 uDao.updateStatus(u.getUserId());
+                message = "Que bom que voltou";
+            }
+            String content = "userWelcome";
+            String menu = "userMenu";
+            String header = "userHeader";
+              if (u.getLogin().equalsIgnoreCase("admin")){
+                content = "adminWelcome";
+                menu = "adminHeader";
             }
             session.setAttribute("user", u);
+            
+            //set template view           
+            this.templateView.setTitle("Página Inicial").setMenu(menu).setHeader(header).setContent(content).setMessage(message).setFooter("");
         }
-        Logger.getInstance().setLog("Success to execute: "+ this.getClass().getName());
-        //redirecionar
-        RequestDispatcher rdisp = request.getRequestDispatcher("welcome.jsp"); //"welcome-scriptlet.jsp"
-        rdisp.forward(request, response);
+        else {
+            this.templateView.setTitle("error").setMenu(null).setContent("error").setMessage("Erro no Login").setFooter("");
+        }
+        super.dispatcher();
     }
 
     private void doLogout() throws ServletException, IOException {

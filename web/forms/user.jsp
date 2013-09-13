@@ -1,8 +1,9 @@
 <script  src="js/jquery.js"></script>
 <script  src="js/default.js"></script>
 <script  src="js/jquery/js/jquery-ui.js"></script>        
-        <link type="text/css" href="js/jquery/css/south-street/jquery-ui.css" rel="stylesheet" />
+<link type="text/css" href="js/jquery/css/south-street/jquery-ui.css" rel="stylesheet" />
 <script  src="js/user/form.js"></script>
+<input type="hidden" id="edit" value="${param.edit}"/>
 <table>
     <tr>
         <td> <input type="hidden" id="userId" name="userId" value="${user.userId}" />          </td>
@@ -16,10 +17,10 @@
         <td> Data Nasc </td>
         <td> <input type="text" id="dtOfBirth" name="dtOfBirth" value="${user.dtOfBirth}"/>       </td>
     </tr>
-    <tr>
+    <tr id="trLogin">
         <td>Login</td>
         <td><input type="text" maxlength="15" name="login" id="login" value="${user.login}">  
-            <span hidden>Login já existente </span> </td>
+        </td>
     </tr>
     <tr>
         <td>Senha</td>
@@ -59,6 +60,11 @@
     <tr>
         <td>Bairro: </td>
         <td><input id="neighborhood" name="neighborhood" type="text" value="${user.neighborhood}"></td>
+    </tr>
+    <tr hidden="hidden" id="accountDisabled">
+        <td>
+            <input type="checkbox" name="disable"  name="accountDisabled" value="true" />Desativar Minha Conta
+        </td>
     </tr>
 </table> 
 

@@ -12,7 +12,7 @@
      $("#submit").click(function() {
         $("#password").val(CryptoJS.MD5($("#password").val()));
         $("#formLogin").submit();
-    });
+      });
     });
 </script>
 
@@ -32,6 +32,6 @@
             <input type="hidden" value="doLog" id="c" name="c" />
             <input type="hidden" value="login" id="m" name="m" />
         </form>
-        <a href="userCrud.jsp">Cadastrar usuário</a>       
+        <a href="userCrud.jsp">Cadastrar usuário</a>             
        </body>
 </html>

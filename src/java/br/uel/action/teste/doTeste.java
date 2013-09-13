@@ -2,12 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uel.controller;
+package br.uel.action.teste;
 
-import br.uel.log.Logger;
+import br.uel.entity.TemplateView;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author leticia
  */
-public class Controller extends HttpServlet {
+public class doTeste extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -32,18 +31,12 @@ public class Controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        System.out.println(Arrays.asList(request));
-        String c = request.getParameter("c");
-        String pathClassName = "br.uel.action." + c;
-        Logger.getInstance().setLog("Action: " + pathClassName);
+
         try {
-            Class clas = Class.forName(pathClassName);
-            Command command = (Command) clas.newInstance();
-            command.execute(request, response);
-            Logger.getInstance().setLog("Succesfully: " + pathClassName);
-        } catch (Exception e) {
-            throw new ServletException("A lógica de "
-                    + "negócios causou uma exceção", e);
+
+   
+        } finally {            
+
         }
     }
 

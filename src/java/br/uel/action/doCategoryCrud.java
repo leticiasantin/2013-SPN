@@ -21,11 +21,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author leticia
  */
-public class doCategoryCrud implements Command {
+public class doCategoryCrud extends Command {
 
-    private HttpServletRequest request;
-    private HttpServletResponse response;
-
+  
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.request = request;

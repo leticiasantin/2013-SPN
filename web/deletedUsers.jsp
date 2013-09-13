@@ -39,13 +39,12 @@
     </head>
     <body>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-         <c:import url="adminHeader.jsp" />
          <jsp:useBean id="user" class="br.uel.entity.User"/>
          <table border="1">
              <tr>
                  <td>Id</td>
                  <td>Nome</td>
-                 <td>login</td>
+                 <td>Login</td>
                  <td></td>
              </tr>
          <c:forEach var="user" items="${delUsers}">

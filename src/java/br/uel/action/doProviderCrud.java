@@ -14,10 +14,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author leticia
  */
-public class doProviderCrud implements Command {
+public class doProviderCrud extends Command {
 
-    private HttpServletRequest request;
-    private HttpServletResponse response;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

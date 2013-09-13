@@ -7,17 +7,7 @@
 <link href="css/profile.css"/>
 <script src="js/default.js"></script>
 <table>
-    <tr>
-        <td>  
-            <div id="img">
-                <img src="imagens/profiles/profile.jpg" width="200" height="200"/><br/>
-                <!--<a href="javascript:openPopup('imageUpload.jsp?type=p&id=${profile.profileId}');">Alterar Foto</a>-->
-            </div>  
-            <h2>
-                ${profile.user.name}
-            </h2>
-        </td>
-    </tr>
+ 
     <tr>
         <td>    
             ${profile.description}

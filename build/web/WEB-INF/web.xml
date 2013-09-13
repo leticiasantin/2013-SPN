@@ -8,6 +8,10 @@
         <servlet-name>doImageUpload</servlet-name>
         <servlet-class>br.uel.action.doImageUpload</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>doTeste</servlet-name>
+        <servlet-class>br.uel.action.teste.doTeste</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/Controller</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>doImageUpload</servlet-name>
         <url-pattern>/doImageUpload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>doTeste</servlet-name>
+        <url-pattern>/doTeste</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

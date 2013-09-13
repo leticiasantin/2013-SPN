@@ -21,10 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author leticia
  */
-public class doProfileCrud implements Command {
-
-    protected HttpServletRequest request;
-    protected HttpServletResponse response;
+public class doProfileCrud extends Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

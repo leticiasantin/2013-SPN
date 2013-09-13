@@ -18,10 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author leticia
  */
-public class doCategoryConnect implements Command {
+public class doCategoryConnect extends Command {
 
-    private HttpServletRequest request;
-    private HttpServletResponse response;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -79,10 +79,10 @@ public class PgCategoryDAO extends CategoryDAO {
 
     @Override
     public void update(Category c) throws DAOException {
-        try { 
+        try {
             PreparedStatement ps;
-        if (c.getParentId() == 0) {
-           
+            if (c.getParentId() == 0) {
+
                 String query = "UPDATE spn.category "
                         + "SET  name=? "
                         + "WHERE cat_id=?";
@@ -92,30 +92,30 @@ public class PgCategoryDAO extends CategoryDAO {
 
                 ps.setString(1, c.getName());
                 ps.setInt(2, c.getCatId());
-           
-        } else {
-            String query = "UPDATE spn.category "
-                    + "SET parent_id=?, name=? "
-                    + "WHERE cat_id=?";
-            Connection conn = daoFactory.getConnection();
-             ps = conn.prepareStatement(query);
-            ps.setInt(1, c.getParentId());
-            ps.setString(2, c.getName());
-            ps.setInt(3, c.getCatId());
-        }
 
-      
-        int rowCount = ps.executeUpdate();
-        if (rowCount < 1) {
-            throw new DAOException("Usuário inexistente");
+            } else {
+                String query = "UPDATE spn.category "
+                        + "SET parent_id=?, name=? "
+                        + "WHERE cat_id=?";
+                Connection conn = daoFactory.getConnection();
+                ps = conn.prepareStatement(query);
+                ps.setInt(1, c.getParentId());
+                ps.setString(2, c.getName());
+                ps.setInt(3, c.getCatId());
+            }
+
+
+            int rowCount = ps.executeUpdate();
+            if (rowCount < 1) {
+                throw new DAOException("Usuário inexistente");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex.getMessage(), ex.getCause());
         }
     }
-    catch (SQLException ex) {
-            throw new DAOException(ex.getMessage(), ex.getCause());
-    }
-}
-@Override
-        public void delete(int cid) throws DAOException {
+
+    @Override
+    public void delete(int cid) throws DAOException {
         try {
             String query = "DELETE FROM spn.category WHERE cat_id = ?;";
             Connection conn = daoFactory.getConnection();
@@ -129,11 +129,10 @@ public class PgCategoryDAO extends CategoryDAO {
             }
 
             conn.close();
-        
-} catch (SQLException ex) {
-            Logger.getLogger(PgCategoryDAO.class  
 
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PgCategoryDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -146,36 +145,37 @@ public class PgCategoryDAO extends CategoryDAO {
         return c;
     }
 
+    /**
+     *
+     * @param pid
+     * @return retorna uma lista contendo todas as categorias do Prestador
+     * @throws DAOException
+     */
     @Override
-        public List<Category> readByIdProvider(int pid) throws DAOException {
+    public List<Category> readByIdProvider(int pid) throws DAOException {
         List<Category> categories = new ArrayList();
         try {
             String query = "SELECT * FROM spn.category NATURAL JOIN "
-                    + "(SELECT * FROM spn.provider NATURAL JOIN spn.prov_has_cat ) AS pro"
+                    + " (SELECT * FROM spn.provider NATURAL JOIN spn.prov_has_cat ) AS pro"
                     + " WHERE provider_id=?";
-//            String query = "SELECT spn.get_parent_category(12) AS T FROM spn.category";
             Connection conn = daoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, pid);
             ResultSet rs = ps.executeQuery();
-//            System.out.println("\n\n\n\nresult:\n\n");
             while (rs.next()) {
-//                System.out.println("\n" +rs.getString("T")+"\n\n");
                 categories.add(this.getObjCategory(rs));
             }
             conn.close();
-        
-
-} catch (SQLException ex) {
-            Logger.getLogger(PgCategoryDAO.class  
-
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PgCategoryDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("\n\n\n\n\n categorias size:"+categories.size()+"<");
         return categories;
     }
 
     @Override
-        public List<Category> list() throws DAOException {
+    public List<Category> list() throws DAOException {
         List<Category> categories = new ArrayList();
         try {
             String query = "SELECT * FROM spn.category ORDER BY name asc;";
@@ -187,19 +187,18 @@ public class PgCategoryDAO extends CategoryDAO {
                 categories.add(c);
             }
             conn.close();
-        
 
-} catch (SQLException ex) {
-            Logger.getLogger(PgCategoryDAO.class  
 
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PgCategoryDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
         return categories;
     }
 
     @Override
-        public List<Category> listOfAvailableCategories() throws DAOException {
+    public List<Category> listOfAvailableCategories() throws DAOException {
         List<Category> categories = new ArrayList();
         try {
             String query = "SELECT * FROM spn.category "
@@ -214,18 +213,17 @@ public class PgCategoryDAO extends CategoryDAO {
                 categories.add(c);
             }
             conn.close();
-        
 
-} catch (SQLException ex) {
-            Logger.getLogger(PgCategoryDAO.class  
 
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PgCategoryDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return categories;
     }
 
     @Override
-        public List<Category> list(int userId) {
+    public List<Category> list(int userId) {
         List<Category> categories = new ArrayList();
         try {
             String query = "SELECT * FROM spn.provider NATURAL JOIN "
@@ -241,18 +239,17 @@ public class PgCategoryDAO extends CategoryDAO {
             }
             conn.close();
 
-        
 
-} catch (SQLException ex) {
-            Logger.getLogger(PgCategoryDAO.class  
 
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PgCategoryDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return categories;
     }
 
     @Override
-        public List<Category> listOfAvailableCategories(int userId) {
+    public List<Category> listOfAvailableCategories(int userId) {
 
         List<Category> categories = new ArrayList();
         try {
@@ -270,12 +267,11 @@ public class PgCategoryDAO extends CategoryDAO {
                 categories.add(c);
             }
             conn.close();
-        
 
-} catch (SQLException ex) {
-            Logger.getLogger(PgCategoryDAO.class  
 
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PgCategoryDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return categories;
     }

@@ -4,7 +4,9 @@ $(document).ready(function() {
         $(window.document.location).attr('href', "welcome.jsp");
     });
     $("#profile").click(function() {
-        $("#c").val('doLoadProfile');
+        alert("teste");
+        $("#c").val('setUserView');
+        $("#m").val('edit');
         $("#formHeader").submit();
     });
     $("#logout").click(function() {
@@ -15,6 +17,11 @@ $(document).ready(function() {
     $("#category").click(function() {
         $("#c").val('doCategoryCrud');
         $("#m").val('listUserCategories');
+        $("#formHeader").submit();
+    });
+    
+    $("#divulgationPage").click(function() {
+        $("#c").val('doLoadProfile');
         $("#formHeader").submit();
     });
     

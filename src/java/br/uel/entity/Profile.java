@@ -5,7 +5,6 @@
  */
 package br.uel.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,31 +13,26 @@ import java.util.List;
  */
 public class Profile {
 
-    private User user;
     private int profileId;
     private int providerId;
     private String description;
-    private String picture;
-    
+    private List<String> pictures;
     private List<Category> categories;
 
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    
     public int getProfileId() {
         return profileId;
     }
 
-    
-
     public void setProfileId(int profileId) {
         this.profileId = profileId;
+    }
+
+    public int getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(int providerId) {
+        this.providerId = providerId;
     }
 
     public String getDescription() {
@@ -49,29 +43,20 @@ public class Profile {
         this.description = description;
     }
 
-    public String getPicture() {
-        return picture;
+    public List<String> getPictures() {
+        return pictures;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
     }
 
-    public User getUser() {
-        return user;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
-    public int getProviderId() {
-        return providerId;
-    }
-
-    public void setProviderId(int providerId) {
-        this.providerId = providerId;
-    }
-    
-    
 }

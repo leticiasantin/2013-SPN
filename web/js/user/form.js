@@ -1,5 +1,8 @@
 
 $(document).ready(function() {
+    if ($("#edit").val() === "true") {
+         $("#accountDisabled").show();
+     }
 
     $("#dtOfBirth").datepicker({dateFormat: 'dd/mm/yy', maxDate: '-18Y',
         yearRange: '-80:+10', changeYear: true, changeMonth: true});
@@ -13,19 +16,23 @@ $(document).ready(function() {
     });
 
     $("#login").focusout(function() {
-        $.ajax({
-            type: "POST",
-            url: "Controller",
-            data: {
-                c: "doUserSCRUD",
-                m: "loginExist",
-                login: $("#login").val()
-            }
-        }).success(function(data) { 
-        }).error(function() {
-            alert('Login já existe por favor escolhar outro');
-        });
+        if ($("#edit").val() !== "true") {
+            $.ajax({
+                type: "POST",
+                url: "Controller",
+                data: {
+                    c: "doUserSCRUD",
+                    m: "loginExist",
+                    login: $("#login").val()
+                }
+            }).success(function(data) {
+            }).error(function() {
+                alert('Login já existe por favor escolhar outro');
+            });
+        }
     });
+    
+     
 
 });
 

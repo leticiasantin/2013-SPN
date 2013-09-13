@@ -44,7 +44,6 @@ public class doImageUpload extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         Logger.getInstance().setLog("trying upload image");
         try {
-
             //Verifica se possui um fileUpload request
             boolean isMultipart = ServletFileUpload.isMultipartContent(request);
             File directory = null;
@@ -105,7 +104,7 @@ public class doImageUpload extends HttpServlet {
                                  * proximo passo por enquanto fica como o id 
                                  */
 
-                                String name = "profile.jpg";
+                                String name = id +".jpg";
                                 //Split com escape \\ para \\
                                 String split[] = name.split("\\\\");
 

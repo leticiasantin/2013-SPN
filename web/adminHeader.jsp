@@ -1,6 +1,6 @@
 <script src="js/jquery.js"></script>
 <script src="js/adminHeader.js"></script>
-<link type="text/css" href="css/header.css" rel="stylesheet" />
+<link type="text/css" href="css/menu.css" rel="stylesheet" />
 <form id="formHeader" name="formHeader" method="post" action="Controller">
     <table id="menu">
         <tr>

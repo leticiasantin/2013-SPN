@@ -23,50 +23,50 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author leticia
  */
-public class doLoadProfile implements Command {
+public class doLoadProfile extends Command {
 
-    protected HttpServletRequest request;
-    protected HttpServletResponse response;
-
+ 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       int userId;
+        int userId;
         /*
          * manda o id usuario a ser visitado o profile
          */
-        if (!request.getParameter("uid").isEmpty()){
-           userId =  Integer.parseInt(request.getParameter("uid"));
-        }
-        /*
+        if (!request.getParameter("uid").isEmpty()) {
+            userId = Integer.parseInt(request.getParameter("uid"));
+        } /*
          * carregando próprio profile
-         */
-        else{
+         */ else {
             User u = (User) request.getSession().getAttribute("user");
             userId = u.getUserId();
         }
-        
+
         ProfileDAO pDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
 
         pDao = (ProfileDAO) factory.getDAOObject(DAOFactory.DAODataType.ProfileDAO);
         Profile profile = pDao.read(userId);
+        /*
+         * Usuario é também prestador
+         */
         if (profile != null) {
+            /*
+             * Carrega as categorias do provider
+             */
+            CategoryDAO cDao;
+            cDao = (CategoryDAO) factory.getDAOObject(DAOFactory.DAODataType.CategoryDAO);
+            List<Category> list = cDao.readByIdProvider(userId);
+            if (!list.isEmpty()) {
+                profile.setCategories(list);
+            }
             request.setAttribute("profile", profile);
         }
-        /*
-         * Carrega as categorias do provider
-         */
-        CategoryDAO cDao;
-        cDao = (CategoryDAO) factory.getDAOObject(DAOFactory.DAODataType.CategoryDAO);
-        List<Category> list = cDao.readByIdProvider(userId);
-        if (!list.isEmpty()) {
-            profile.setCategories(list);
-        }
-        Logger.getInstance().setLog("Success to execute: "+ this.getClass().getName());
+
+
         /*
          * redirecionando para a págine de profiles
          */
-        RequestDispatcher rdisp = request.getRequestDispatcher("profile.jsp"); 
+        RequestDispatcher rdisp = request.getRequestDispatcher("profile.jsp");
         rdisp.forward(request, response);
     }
 }
