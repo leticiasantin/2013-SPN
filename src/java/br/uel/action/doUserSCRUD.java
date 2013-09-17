@@ -74,40 +74,40 @@ public class doUserSCRUD extends Command {
 
     private User getObjUser() {
         User u = new User();
-        if (!request.getParameter("login").isEmpty()) {
+        if (request.getParameter("login") != null) {
             u.setLogin(request.getParameter("login"));
         }
-        if (!request.getParameter("name").isEmpty()) {
+        if (request.getParameter("name") != null) {
             u.setName((String) request.getParameter("name"));
         }
-        if (!request.getParameter("password").isEmpty()) {
+        if (request.getParameter("password") != null) {
             u.setPassword((String) request.getParameter("password"));
         }
-        if (!request.getParameter("userId").isEmpty()) {
+        if (request.getParameter("userId") != null) {
             u.setUserId(Integer.parseInt(request.getParameter("userId")));
         }
-        if (!request.getParameter("complement").isEmpty()) {
+        if (request.getParameter("complement") != null) {
             u.setComplement(String.valueOf(request.getParameter("complement")));
         }
-        if (!request.getParameter("state").isEmpty()) {
+        if (request.getParameter("state") != null) {
             u.setState(String.valueOf(request.getParameter("state")));
         }
-        if (!request.getParameter("zipcode").isEmpty()) {
+        if (request.getParameter("zipcode") != null) {
             u.setZipCode(String.valueOf(request.getParameter("zipcode")));
         }
-        if (!request.getParameter("neighborhood").isEmpty()) {
+        if (request.getParameter("neighborhood") != null) {
             u.setNeighborhood(String.valueOf(request.getParameter("neighborhood")));
         }
-        if (!request.getParameter("number").isEmpty()) {
+        if (request.getParameter("number") != null) {
             u.setNumber(Integer.parseInt(request.getParameter("number")));
         }
-        if (!request.getParameter("city").isEmpty()) {
+        if (request.getParameter("city") != null) {
             u.setCity(String.valueOf(request.getParameter("city")));
         }
-        if (!request.getParameter("street").isEmpty()) {
+        if (request.getParameter("street") != null) {
             u.setStreet(String.valueOf(request.getParameter("street")));
         }
-        if (!request.getParameter("dtOfBirth").isEmpty()) {
+        if (request.getParameter("dtOfBirth") != null) {
             u.setDtOfBirth(String.valueOf(request.getParameter("dtOfBirth")));
         }
 
@@ -115,31 +115,31 @@ public class doUserSCRUD extends Command {
     }
 
     private boolean ValidateUserData(User u) {
-        if (u.getName().isEmpty()) {
+        if (u.getName() == null) {
             return false;
         }
-        if (u.getLogin().isEmpty()) {
+        if (u.getLogin() == null) {
             return false;
         }
-        if (u.getPassword().isEmpty()) {
+        if (u.getPassword() == null) {
             return false;
         }
-//        if (u.getState().isEmpty()) {
+//        if (u.getState() == null) {
 //            return false;
 //        }
-//        if (u.getNumber().toString().isEmpty()) {
+//        if (u.getNumber().toString() == null) {
 //            return false;
 //        }
-//        if (u.getCity().isEmpty()) {
+//        if (u.getCity() == null) {
 //            return false;
 //        }
-//        if (u.getStreet().isEmpty()) {
+//        if (u.getStreet() == null) {
 //            return false;
 //        }
-//        if (u.getDtOfBirth().isEmpty()) {
+//        if (u.getDtOfBirth() == null) {
 //            return false;
 //        } else {
-        u.setDtOfBirth(u.getDtOfBirth().replaceAll("/", "-"));
+       // u.setDtOfBirth(u.getDtOfBirth().replaceAll("/", "-"));
 //        }
         return true;
     }

@@ -4,7 +4,6 @@ $(document).ready(function() {
         $(window.document.location).attr('href', "welcome.jsp");
     });
     $("#profile").click(function() {
-        alert("teste");
         $("#c").val('setUserView');
         $("#m").val('edit');
         $("#formHeader").submit();
@@ -21,7 +20,7 @@ $(document).ready(function() {
     });
     
     $("#divulgationPage").click(function() {
-        $("#c").val('doLoadProfile');
+        $("#c").val('doLoadDivulgationPage');
         $("#formHeader").submit();
     });
     

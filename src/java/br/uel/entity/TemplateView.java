@@ -105,6 +105,12 @@ public class TemplateView {
         this.content = "index";
         return this;
     }
+
+    public void imprime() {
+        System.out.println("\nTemplateView\nheader: "+this.header+"\nmenu: "+this.menu +
+                "\ncontent: "+this.content+"\nfooter: "+this.footer);
+    
+    }
     
     
 

@@ -5,19 +5,28 @@
  */
 package br.uel.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author leticia
  */
-public class Profile {
+public class DivulgationPage {
 
     private int profileId;
     private int providerId;
     private String description;
     private List<String> pictures;
     private List<Category> categories;
+
+    public DivulgationPage() {
+        this.profileId = 0;
+        this.pictures = new ArrayList<String>();
+        this.categories = new ArrayList<Category>();
+    }
+    
+    
 
     public int getProfileId() {
         return profileId;

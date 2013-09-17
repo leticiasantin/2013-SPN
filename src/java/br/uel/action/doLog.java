@@ -9,7 +9,6 @@ import br.uel.database.DAOFactory;
 import br.uel.database.UserDAO;
 import br.uel.entity.User;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +23,7 @@ public class doLog extends Command{
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
                 //limpar objeto User possivelmente existente na session
-        this.request = request;
-        this.response = response;
+       super.init(request, response);
         String m = request.getParameter("m");
         if (m.equals("login")){
             doLogin();
@@ -65,7 +63,7 @@ public class doLog extends Command{
             session.setAttribute("user", u);
             
             //set template view           
-            this.templateView.setTitle("Página Inicial").setMenu(menu).setHeader(header).setContent(content).setMessage(message).setFooter("");
+            this.templateView.setTitle("Página Inicial").setMenu(menu).setHeader(header).setContent(content).setMessage(message).imprime();
         }
         else {
             this.templateView.setTitle("error").setMenu(null).setContent("error").setMessage("Erro no Login").setFooter("");

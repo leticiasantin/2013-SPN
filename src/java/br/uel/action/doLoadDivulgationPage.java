@@ -7,48 +7,45 @@ package br.uel.action;
 import br.uel.controller.Command;
 import br.uel.database.CategoryDAO;
 import br.uel.database.DAOFactory;
-import br.uel.database.ProfileDAO;
+import br.uel.database.DivulgationPageDAO;
 import br.uel.entity.Category;
-import br.uel.entity.Profile;
+import br.uel.entity.DivulgationPage;
 import br.uel.entity.User;
-import br.uel.log.Logger;
-import java.io.IOException;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author leticia
- */
-public class doLoadProfile extends Command {
+ */            
+public class doLoadDivulgationPage extends Command {
 
- 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    
+        super.init(request, response);
+         User u = (User) request.getSession().getAttribute("user");
         int userId;
         /*
          * manda o id usuario a ser visitado o profile
          */
         if (!request.getParameter("uid").isEmpty()) {
             userId = Integer.parseInt(request.getParameter("uid"));
+            request.setAttribute("owner",false);
         } /*
          * carregando próprio profile
          */ else {
-            User u = (User) request.getSession().getAttribute("user");
             userId = u.getUserId();
+            request.setAttribute("owner", true);
         }
-
-        ProfileDAO pDao;
+        
+        DivulgationPageDAO pDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
 
-        pDao = (ProfileDAO) factory.getDAOObject(DAOFactory.DAODataType.ProfileDAO);
-        Profile profile = pDao.read(userId);
-        /*
-         * Usuario é também prestador
-         */
+        pDao = (DivulgationPageDAO) factory.getDAOObject(DAOFactory.DAODataType.DivulgationPageDAO);
+        DivulgationPage profile = pDao.read(userId);
+       
         if (profile != null) {
             /*
              * Carrega as categorias do provider
@@ -59,14 +56,16 @@ public class doLoadProfile extends Command {
             if (!list.isEmpty()) {
                 profile.setCategories(list);
             }
-            request.setAttribute("profile", profile);
+            if (u.getLogin().equalsIgnoreCase("admin")){
+                templateView.setAdminAttributes();
+            }
+            else{
+                templateView.setUserAttributes();
+            }
         }
-
-
-        /*
-         * redirecionando para a págine de profiles
-         */
-        RequestDispatcher rdisp = request.getRequestDispatcher("profile.jsp");
-        rdisp.forward(request, response);
+        templateView.setTitle("Perfil de Usuário").setContent("divulgationPageCrud").setFooter(null); 
+        request.setAttribute("profile", profile);
+        super.dispatcher(); 
+    
     }
 }

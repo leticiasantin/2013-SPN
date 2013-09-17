@@ -42,7 +42,7 @@ public class doImageUpload extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Logger.getInstance().setLog("trying upload image");
+       
         try {
             //Verifica se possui um fileUpload request
             boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -143,8 +143,7 @@ public class doImageUpload extends HttpServlet {
              */
              PrintWriter out = response.getWriter();
             out.println("<!DOCTYPE html>");
-            out.println("<html><body onload=\"window.close()\"></body></html>  ");
-           
+            out.println("<html><body>Imagem enviada com sucesso</body></html>  ");
 
         } finally {
 //            out.close();

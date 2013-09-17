@@ -42,8 +42,8 @@ public class PgDAOFactory extends DAOFactory {
         switch (dType) {
             case UserDAO:
                 return new PgUserDAO(this);
-            case ProfileDAO:
-                return new PgProfileDAO(this);
+            case DivulgationPageDAO:
+                return new PgDivulgationPageDAO(this);
             case CategoryDAO:
                 return new PgCategoryDAO(this);
             case ProviderDAO:

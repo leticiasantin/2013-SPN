@@ -5,10 +5,7 @@
 package br.uel.controller;
 
 import br.uel.entity.TemplateView;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.ServletException;
+import br.uel.log.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,9 +19,7 @@ public abstract class Command {
     protected HttpServletResponse response;
     protected TemplateView templateView;
 
-    public Command() {
-        templateView = new TemplateView();
-    }
+   
 
     public abstract void execute(HttpServletRequest request,
             HttpServletResponse response) throws Exception;
@@ -33,6 +28,7 @@ public abstract class Command {
             HttpServletResponse response) {
         this.request = request;
         this.response = response;
+        templateView = new TemplateView();
     }
 
     public void dispatcher(){
@@ -41,6 +37,7 @@ public abstract class Command {
         }
         try {
             request.setAttribute("view",templateView);
+            Logger.getInstance().setLog("dispatcher to: "+templateView.getContent());
             request.getRequestDispatcher("templateView.jsp").forward(request, response);
         } catch (Exception ex) {
             templateView.clearAttributes().setContent("error").setMessage("Erro na conexão");
