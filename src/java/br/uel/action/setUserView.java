@@ -20,8 +20,7 @@ public class setUserView extends Command{
         String m = request.getParameter("m");
         if (m.equalsIgnoreCase("edit")) {
             Edit();
-        } 
-        
+        }  
     }
 
     private void Edit() {

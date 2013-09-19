@@ -12,7 +12,6 @@
         <td> Nome </td> 
         <td> <input type="text" maexlength="50" name="name" id ="name" value="${user.name}">  </td>
     </tr>   
-
     <tr>
         <td> Data Nasc </td>
         <td> <input type="text" id="dtOfBirth" name="dtOfBirth" value="${user.dtOfBirth}"/>       </td>
@@ -66,25 +65,6 @@
             <input type="checkbox" name="disable"  name="accountDisabled" value="true" />Desativar Minha Conta
         </td>
     </tr>
+    
 </table> 
 
-
-<!--<style type="text/css">
-body,td,th {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    color: #555555;
-}
-h1  
-{
-    font-size: 13px;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    color: #2e62b1;
-    font-weight: bold;
-}
-h2  
-{
-    font-size: 10px;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-</style> -->

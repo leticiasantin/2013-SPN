@@ -228,7 +228,7 @@ public class PgCategoryDAO extends CategoryDAO {
         try {
             String query = "SELECT * FROM spn.provider NATURAL JOIN "
                     + " (spn.prov_has_cat NATURAL JOIN spn.category)"
-                    + " WHERE provider_id=?;";
+                    + " WHERE provider_id=? ORDER BY name;";
             Connection conn = daoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, userId);

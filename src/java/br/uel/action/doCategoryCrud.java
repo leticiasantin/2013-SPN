@@ -23,11 +23,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class doCategoryCrud extends Command {
 
-  
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.request = request;
-        this.response = response;
+        super.init(request, response);
         String m = request.getParameter("m");
         if (m.equalsIgnoreCase("save")) {
             Logger.getInstance().setLog("entrou no save");
@@ -44,11 +42,11 @@ public class doCategoryCrud extends Command {
             delete();
 
         } else if (m.equalsIgnoreCase("listUserCategories")) {
-            listMyCategory();
+            listUserCategory();
         }
     }
 
-    private void listMyCategory() throws ServletException, IOException {
+    private void listUserCategory() throws ServletException, IOException {
         User u = (User) request.getSession().getAttribute("user");
         int userId = u.getUserId();
         CategoryDAO cDao;
@@ -66,7 +64,25 @@ public class doCategoryCrud extends Command {
         List<Category> availableCategories = null;
         availableCategories = cDao.listOfAvailableCategories();
         request.setAttribute("availableCategories", availableCategories);
-        
+        templateView.setTitle("Minhas Categorias").setUserAttributes().setContent("categories").setFooter(null);
+        super.dispatcher();
+
+    }
+
+    private void listUserCategory(int userId) throws ServletException, IOException {
+        CategoryDAO cDao;
+        DAOFactory factory = DAOFactory.getDAOFactory();
+        cDao = (CategoryDAO) factory.getDAOObject(DAOFactory.DAODataType.CategoryDAO);
+        /*
+         * Categorias do usuario
+         */
+        List<Category> categories = null;
+        categories = cDao.list(userId);
+        request.setAttribute("userCategories", categories);
+        /*
+         * categorias disponiveis para adicionar
+         */
+
         request.getRequestDispatcher("categories.jsp").forward(request, response);
     }
 

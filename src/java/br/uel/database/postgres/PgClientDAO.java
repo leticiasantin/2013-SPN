@@ -11,8 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -40,7 +38,6 @@ public class PgClientDAO extends ClientDAO{
          } catch (SQLException ex) {
              throw new DAOException(ex.getMessage(),ex.getCause());
          }
-        
     }
 
     @Override

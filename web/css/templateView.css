@@ -37,7 +37,7 @@ body{
 }
 
 #content{
-    background-color:blue;
+    background-color:background;
     float:left;
     width:85%;
 }

@@ -77,8 +77,8 @@ public class doImageUpload extends HttpServlet {
                         if (!item.isFormField()) {
                             if (item.getName().length() > 0) {
                                 //aponta para diretorio imagens a partir do diretório atual
-                                String path = getServletContext().getRealPath("/imagens") + "/";
-//                                path = path.replace("/build/web", "");
+                                String path = getServletContext().getRealPath("imagens") + "/";
+                                path = path.replace("/build/web", "");
                                 System.out.println("\n\npath: " + path + "\n\n");
                                 directory = new File(path + type);
 

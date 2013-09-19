@@ -116,7 +116,6 @@ public class PgProviderDAO extends ProviderDAO {
                 ps.setInt(1,userId);
                 ps.setInt(2, catId);
                  ps.execute();
-
                 conn.close();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(PgProviderDAO.class.getName()).log(Level.SEVERE, null, ex);
