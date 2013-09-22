@@ -17,6 +17,7 @@ public class TemplateView {
     private String menu;
     private String content;
     private String message;
+    private String extra;
 
    
     public TemplateView() {
@@ -110,6 +111,15 @@ public class TemplateView {
         System.out.println("\nTemplateView\nheader: "+this.header+"\nmenu: "+this.menu +
                 "\ncontent: "+this.content+"\nfooter: "+this.footer);
     
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public TemplateView setExtra(String extra) {
+        this.extra = extra;
+        return this;
     }
     
     

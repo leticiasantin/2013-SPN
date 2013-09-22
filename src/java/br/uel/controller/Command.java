@@ -5,6 +5,7 @@
 package br.uel.controller;
 
 import br.uel.entity.TemplateView;
+import br.uel.entity.User;
 import br.uel.log.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +20,6 @@ public abstract class Command {
     protected HttpServletResponse response;
     protected TemplateView templateView;
 
-   
-
     public abstract void execute(HttpServletRequest request,
             HttpServletResponse response) throws Exception;
 
@@ -28,16 +27,27 @@ public abstract class Command {
             HttpServletResponse response) {
         this.request = request;
         this.response = response;
+
         templateView = new TemplateView();
+        try {
+            User u = (User) request.getSession().getAttribute("user");
+            if (u.getLogin().equalsIgnoreCase("admin")) {
+                templateView.setAdminAttributes();
+            } else {
+                templateView.setUserAttributes();
+            }
+        } catch (NullPointerException ex) {
+            templateView.setGuestAttributes();
+        }
     }
 
-    public void dispatcher(){
+    public void dispatcher() {
         if (templateView.getContent().isEmpty()) {
             templateView.setContent("index").setMessage("Conexão Falhou");
         }
         try {
-            request.setAttribute("view",templateView);
-            Logger.getInstance().setLog("dispatcher to: "+templateView.getContent());
+            request.setAttribute("view", templateView);
+            Logger.getInstance().setLog("dispatcher to: " + templateView.getContent());
             request.getRequestDispatcher("templateView.jsp").forward(request, response);
         } catch (Exception ex) {
             templateView.clearAttributes().setContent("error").setMessage("Erro na conexão");

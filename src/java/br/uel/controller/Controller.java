@@ -34,8 +34,14 @@ public class Controller extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         System.out.println(Arrays.asList(request));
         String c = request.getParameter("c");
-        String pathClassName = "br.uel.action." + c;
-        Logger.getInstance().setLog("Action: " + pathClassName);
+        String pathClassName;
+        if (c.isEmpty()){
+            pathClassName = "br.uel.action.Log";
+        }
+        else {
+             pathClassName = "br.uel.action." + c;
+        }
+        Logger.getInstance().setLog("Action: " + request.getParameter("m") + " In "+ pathClassName);
         try {
             Class clas = Class.forName(pathClassName);
             Command command = (Command) clas.newInstance();

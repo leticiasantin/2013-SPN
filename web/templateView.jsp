@@ -5,7 +5,7 @@
 
 --%>
 
-<%@page import="org.apache.catalina.tribes.util.Arrays"%>
+<%@page import="java.util.Arrays"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -17,13 +17,17 @@
         <script  src="js/default.js"></script> 
     </head>
     <link type="text/css" href="css/templateView.css" rel="stylesheet" />
-    <body>
+    <body>      
+        
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <jsp:useBean id="user" class="br.uel.entity.User" scope="session"/>
         <jsp:useBean id="view" class="br.uel.entity.TemplateView" scope="request"/>
         <div class="header">
-            <c:if test="${not empty view.header}">
-                <c:import url="${view.header}.jsp" /> 
+         <c:if test="${not empty view.header}">
+                <c:import url ="guestHeader.jsp"/>
+            </c:if> 
+            <c:if test="${empty view.header}">
+                <c:import url ="guestHeader.jsp"/>
             </c:if>
         </div>
         <div class="content-page">
@@ -44,15 +48,22 @@
                 <c:if test="${not empty view.content}">
                     <c:import url="${view.content}.jsp" />
                 </c:if>
+                 <div id="extra">
+                <c:if test="${not empty view.extra}">
+                    <c:import url="${view.extra}.jsp"/>
+                </c:if>
             </div>
-            <div id="footer">
+            </div>
+           
+           
+        </div>
+         <div id="footer">
                 <c:if test="${not empty view.footer}">
                     <c:import url="${view.footer}.jsp" />
                 </c:if>
             </div>  
-        </div>
         <script type="text/javascript">
-            top.document.title = '${view.title}';
+            top.document.title = '<c:out value="${view.title}" default="SPN"/>';
         </script>      
     </body>
 </html>

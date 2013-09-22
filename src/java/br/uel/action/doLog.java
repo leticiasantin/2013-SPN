@@ -8,6 +8,7 @@ import br.uel.controller.Command;
 import br.uel.database.DAOFactory;
 import br.uel.database.UserDAO;
 import br.uel.entity.User;
+import br.uel.log.Logger;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,20 +23,21 @@ public class doLog extends Command{
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-                //limpar objeto User possivelmente existente na session
        super.init(request, response);
         String m = request.getParameter("m");
         if (m.equals("login")){
             doLogin();
+        } else if (m.equals("logout")) {
+            doLogout();
+        } else {
+            doLogout();
         }
-        else 
-            if (m.equals("logout")){
-                doLogout();
-            }
-      }
+        
+    }
 
     private void doLogin() throws ServletException, IOException {
-       HttpSession session = request.getSession();
+        super.init(request, response);
+        HttpSession session = request.getSession();
         session.removeAttribute("user");
         //instanciar usuario
         User u = new User();
@@ -58,12 +60,13 @@ public class doLog extends Command{
             String header = "userHeader";
               if (u.getLogin().equalsIgnoreCase("admin")){
                 content = "adminWelcome";
-                menu = "adminHeader";
+                menu = "adminMenu";
             }
+              Logger.getInstance().setLog("cotent = "+content + " menu : "+menu+ " header: "+header);
             session.setAttribute("user", u);
-            
+            session.setAttribute("view", templateView);
             //set template view           
-            this.templateView.setTitle("Página Inicial").setMenu(menu).setHeader(header).setContent(content).setMessage(message).imprime();
+            this.templateView.setTitle("Página Inicial").setMenu(menu).setHeader(header).setContent(content).setMessage(message);
         }
         else {
             this.templateView.setTitle("error").setMenu(null).setContent("error").setMessage("Erro no Login").setFooter("");
@@ -73,7 +76,8 @@ public class doLog extends Command{
 
     private void doLogout() throws ServletException, IOException {
         request.getSession().invalidate();
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        templateView.clearAttributes().setGuestAttributes().setContent("index");
+        super.dispatcher();
     }
     
 }

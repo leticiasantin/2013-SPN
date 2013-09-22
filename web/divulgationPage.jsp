@@ -1,10 +1,7 @@
-
-<%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.Arrays"%>
+    <%request.removeAttribute("uid"); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:useBean id="dPage" class="br.uel.entity.DivulgationPage" scope="request"/>
-<table id="pageTable" hidden="hidden">
+<table id="pageTable">
     <tr>
         <td>Nome do Prestador:</td>
         <td>dPage.providerName</td>
@@ -18,8 +15,10 @@
     <c:when test="${dPage.profileId != 0}">
         <script type ="text/javascript">
             $("#pageTable").show();
-            </script>
+         </script>
     </c:when>
     <c:otherwise>s
     </c:otherwise>
 </c:choose>
+    
+

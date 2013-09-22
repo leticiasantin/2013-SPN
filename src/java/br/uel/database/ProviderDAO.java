@@ -2,6 +2,7 @@ package br.uel.database;
 
 import br.uel.entity.Category;
 import br.uel.entity.Provider;
+import br.uel.entity.ProviderSought;
 import br.uel.entity.User;
 import java.util.List;
 
@@ -28,5 +29,8 @@ public abstract class ProviderDAO {
     public abstract void connect(Integer userId, int catId);
 
     public abstract void disconnect(Integer userId, int catId) ;
+    
+    public abstract List<ProviderSought> searchByCategory(int userId,int catId, int limit, int offset);
+    
     
 }

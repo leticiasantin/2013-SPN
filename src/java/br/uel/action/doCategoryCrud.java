@@ -6,7 +6,6 @@ package br.uel.action;
 
 import br.uel.controller.Command;
 import br.uel.database.CategoryDAO;
-import br.uel.database.DAOException;
 import br.uel.database.DAOFactory;
 import br.uel.entity.Category;
 import br.uel.entity.User;
@@ -23,6 +22,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class doCategoryCrud extends Command {
 
+    public doCategoryCrud() {
+    }
+
+    
+    public doCategoryCrud(HttpServletRequest request, HttpServletResponse response) {
+        super.init(request, response);
+    }
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.init(request, response);
@@ -37,7 +44,8 @@ public class doCategoryCrud extends Command {
              * Faz o update do nome da categoria
              */
         } else if (m.equalsIgnoreCase("list")) {
-            listCategory();
+            list();
+             super.dispatcher();
         } else if (m.equalsIgnoreCase("delete")) {
             delete();
 
@@ -69,7 +77,7 @@ public class doCategoryCrud extends Command {
 
     }
 
-    private void listUserCategory(int userId) throws ServletException, IOException {
+    public void listUserCategory(int userId) throws ServletException, IOException {
         CategoryDAO cDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         cDao = (CategoryDAO) factory.getDAOObject(DAOFactory.DAODataType.CategoryDAO);
@@ -102,20 +110,13 @@ public class doCategoryCrud extends Command {
         }
     }
 
-    private void listCategory() {
-        try {
+    public void list() {
             CategoryDAO cDao;
             DAOFactory factory = DAOFactory.getDAOFactory();
             cDao = (CategoryDAO) factory.getDAOObject(DAOFactory.DAODataType.CategoryDAO);
             List list = cDao.list();
             request.getSession().setAttribute("catList", list);
-            request.getRequestDispatcher("categoryCrud.jsp").forward(request, response);
-        } catch (ServletException ex) {
-            throw new DAOException(ex.getMessage(), ex.getCause());
-        } catch (IOException ex) {
-            throw new DAOException(ex.getMessage(), ex.getCause());
-        }
-
+            templateView.setContent("categoryCrud").setTitle("Editar Categorias");
     }
 
     private void delete() {

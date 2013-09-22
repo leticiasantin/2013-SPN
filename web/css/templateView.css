@@ -55,5 +55,9 @@ body{
     float: bottom;
 }
 
+#extra{
+    background-color: turquoise;
+    float:inside;
+}
 
 

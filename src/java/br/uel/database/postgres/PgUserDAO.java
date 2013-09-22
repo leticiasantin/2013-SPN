@@ -56,6 +56,9 @@ public class PgUserDAO extends UserDAO {
                 PgClientDAO pDAO = new PgClientDAO(daoFactory);
                 pDAO.create(u.getUserId());
             }
+            PgClientDAO cDao = new PgClientDAO(daoFactory);
+            cDao.create(u.getUserId());
+            
             conn.close();
         } catch (SQLException ex) {
             Logger.getInstance().setLog(ex.getMessage() + ex.getCause());

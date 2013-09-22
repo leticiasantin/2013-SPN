@@ -9,12 +9,14 @@ import br.uel.database.DAOFactory;
 import br.uel.database.ProviderDAO;
 import br.uel.entity.Category;
 import br.uel.entity.Provider;
+import br.uel.entity.ProviderSought;
 import br.uel.entity.User;
 import br.uel.log.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -136,5 +138,42 @@ public class PgProviderDAO extends ProviderDAO {
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(PgProviderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public List<ProviderSought> searchByCategory(int userId,int catId, int limit, int offset) {
+         ArrayList<ProviderSought> array = new ArrayList();
+        try {
+            String query = "SELECT u.user_id, u.name AS user_name,u.city, u.state, prov_cat.cat_id,prov_cat.name AS cat_name  FROM spn.user u INNER JOIN "
+                    + " (SELECT * FROM spn.prov_has_cat NATURAL JOIN "
+                        + "(SELECT * FROM spn.category WHERE cat_id = ? LIMIT 1) as category) AS prov_cat"
+                    + " ON u.user_id = prov_cat.provider_id AND u.user_id <> ? LIMIT ? OFFSET ?; ";
+                    Connection conn = daoFactory.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(query);
+                    ps.setInt(1,catId);
+                    ps.setInt(2,userId);
+                    ps.setInt(3, limit);
+                    ps.setInt(4, offset);
+                    ResultSet rs = ps.executeQuery();
+                     while (rs.next()){
+                         array.add(this.getObjProviderSought(rs));
+                     }
+                    conn.close();
+           
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(PgProviderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return array;
+    }
+
+    private ProviderSought getObjProviderSought(ResultSet rs) throws SQLException {
+        ProviderSought ps = new ProviderSought();
+        ps.setId(rs.getInt("user_id"));
+        ps.setName(rs.getString("user_name"));
+        ps.setCity(rs.getString("city"));
+        ps.setState(rs.getString("state"));
+        ps.setCatId(rs.getInt("cat_id"));
+        ps.setCatName(rs.getString("cat_name"));
+        return ps;
     }
 }

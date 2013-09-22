@@ -18,6 +18,11 @@ $(document).ready(function() {
         $("#m").val('listUserCategories');
         $("#formHeader").submit();
     });
+    $("#pendencies").click(function() {
+        $("#c").val('doServiceCrud');
+        $("#m").val('pendeciesList');
+        $("#formHeader").submit();
+    });
     
     $("#divulgationPage").click(function() {
         $("#c").val('doLoadDivulgationPage');

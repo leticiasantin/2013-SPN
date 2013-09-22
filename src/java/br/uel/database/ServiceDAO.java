@@ -5,7 +5,6 @@
 package br.uel.database;
 
 import br.uel.entity.Service;
-import br.uel.entity.User;
 import java.util.List;
 
 /**
@@ -13,18 +12,10 @@ import java.util.List;
  * @author leticia
  */
 public abstract class ServiceDAO {
-
-    protected DAOFactory daoFactory;
-
-    public abstract void create(Service s) throws DAOException;
-
-    public abstract List<Service> list(int userId) throws DAOException;
-
-    public abstract User read(int sid) throws DAOException;
-
-    public abstract void update(Service s) throws DAOException;
-
-    public abstract void delete(int sid) throws DAOException;
-
-    public abstract boolean serviceExistsById(int sid);
+      protected DAOFactory daoFactory;
+      public abstract void create (Service service);
+      public abstract List<Service> pendencesListAsProvider(int pId);
+      public abstract List<Service> pendencesListAsClient(int cId);
+      public abstract void rejectSolicitation(Service service);
+      public abstract void acceptSolicitation(Service service);
 }
