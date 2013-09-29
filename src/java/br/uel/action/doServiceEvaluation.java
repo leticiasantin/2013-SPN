@@ -13,42 +13,38 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author leticia
  */
-public class  doServiceCrud extends Command{
-     public doServiceCrud(HttpServletRequest request, HttpServletResponse response) {
+public class doServiceEvaluation extends Command {
+
+    public doServiceEvaluation(HttpServletRequest request, HttpServletResponse response) {
         super.init(request, response);
     }
-     
-     public doServiceCrud() {
+
+    public doServiceEvaluation() {
     }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-       super.init(request, response);
-         String m = request.getParameter("m");
-        if (m.equalsIgnoreCase("solicitationPendeciesList")) {
-            solicitationPendenciesList();
+        super.init(request, response);
+        String m = request.getParameter("m");
+        if (m.equalsIgnoreCase("list")) {
+            ListPendingEvaluation();
         } else if (m.equalsIgnoreCase("option2")) {
         } else if (m.equalsIgnoreCase("option3")) {
-        } 
+        }
+
     }
 
-    private void solicitationPendenciesList() {
-        // Como prestador 
+    private void ListPendingEvaluation() {
         User u = (User) request.getSession().getAttribute("user");
         ServiceDAO sDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         sDao = (ServiceDAO) factory.getDAOObject(DAOFactory.DAODataType.ServiceDAO);
-        List<Service> list = sDao.pendencesListAsProvider(u.getUserId());
-        request.setAttribute("providerPendencies", list);
-        if (list.size() >0){
-            templateView.setMessage("Você tem "+ list.size()+" pendencias");
-        }
-        else {
-            templateView.setMessage("Você não Solicitações Pendentess");
-            
-        }
-        templateView.setContent("solicitationPendencies");
+        List<Service> asClient = sDao.listNotAssessedClient(u.getUserId());
+        List<Service> asProvider = sDao.listNotAssessedProvider(u.getUserId());
+        
+        request.setAttribute("asClient", asClient);
+        request.setAttribute("asProvider", asProvider);
+        templateView.setContent("evaluationPendencies");
         super.dispatcher();
     }
-    
 }

@@ -1,4 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <jsp:useBean id="category" class="br.uel.entity.Category"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
         <script  src="js/jquery.js"></script>

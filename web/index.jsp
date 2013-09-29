@@ -32,8 +32,11 @@
             <input type="hidden" value="doLog" id="c" name="c" />
             <input type="hidden" value="login" id="m" name="m" />
         </form>
+        
         <a href="userCrud.jsp">Cadastrar usuário</a>             
-        <a href="javascript:openPopup('solicitationAcceptedForm.jsp?serviceId=12')"> <img src="icons/check.png"/></a>
-       </body>
+         
+        
+        
+      </body>
        
 </html>

@@ -32,6 +32,7 @@
                 <option  value="PR">PR</option>
                 <option  value="SC">SC</option>
             </select>
+        </td>
     </tr>
     <tr>
         <td>Cidade: </td>

@@ -1,0 +1,63 @@
+<form>
+
+    <caption><h2>Avaliação do Prestador Codigo do serviço ${param.serviceId} </h2></caption>
+    <table>
+        <tr>
+            <td>Pagamento Adequado</td>
+            <td><select name="pAppropriatePayment">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+
+            <td>Fornecimento de Materiais</td>
+            <td><select name="pMaterialsSupply">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select></td>
+        </tr>
+        <tr>
+            <td>Facilidade de comunicação com o Cliente</td>
+            <td><select name="pComunicationWithClient">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select></td>
+        </tr>
+        <tr>
+            <td colspan="2">Deixe seu comentário sobre o serviço e o cliente</td>
+        </tr>
+        <tr>
+            <td colspan="2"><textarea name="pComment" maxlenght="1024" rows="10" cols="50" ></textarea></td>
+        </tr>
+    </table>
+    <input type="submit" value="sub"/>
+</form>

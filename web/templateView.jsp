@@ -41,7 +41,7 @@
                     <div id="message">
                         ${view.message}
                         <script>
-                            setTimeout("$('#message').hide()", 2000);
+                            setTimeout("$('#message').hide()", 5000);
                         </script>
                     </div>
                 </c:if>
@@ -63,7 +63,7 @@
                 </c:if>
             </div>  
         <script type="text/javascript">
-            top.document.title = '<c:out value="${view.title}" default="SPN"/>';
+            top.document.title = '<c:out value="${view.title}" default="SPN - Service Provider Network"/>';
         </script>      
     </body>
 </html>

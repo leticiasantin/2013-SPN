@@ -18,12 +18,17 @@ $(document).ready(function() {
         $("#m").val('listUserCategories');
         $("#formHeader").submit();
     });
-    $("#pendencies").click(function() {
+    $("#solicitation").click(function() {
         $("#c").val('doServiceCrud');
-        $("#m").val('pendeciesList');
+        $("#m").val('solicitationPendeciesList');
         $("#formHeader").submit();
     });
-    
+    $("#evaluation").click(function() {
+        alert("hello");
+        $("#c").val('doServiceEvaluation');
+        $("#m").val('list');
+        $("#formHeader").submit();
+    });
     $("#divulgationPage").click(function() {
         $("#c").val('doLoadDivulgationPage');
         $("#formHeader").submit();

@@ -34,7 +34,7 @@ public class doSolicitationAction extends Command {
         } else if (m.equalsIgnoreCase("reject")) {
             ProviderReject();
         } else if (m.equalsIgnoreCase("accept")) {
-           
+            ProviderAccept();
         }
     }
 
@@ -65,24 +65,16 @@ public class doSolicitationAction extends Command {
         if (request.getParameter("reason") != null) {
             service.setReasonForCancellation(request.getParameter("reason"));
         }
-          if (request.getParameter("price") != null) {
+        if (request.getParameter("price") != null) {
             String price = request.getParameter("price").replace(',', '.');
             service.setPrice(price);
         }
-        
-        try {
-            if (request.getParameter("startDate") != null) {
-                Date DataNascFr = new SimpleDateFormat("dd/MM/yyyy ").parse(request.getParameter("startDate"));  
-                service.setStartDate(new SimpleDateFormat("yyyy-mm-dd 00:00:00").format(DataNascFr)); 
-            }
-           if (request.getParameter("finishDate") != null) {
-                Date DataNascFr = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("finishDate"));  
-                service.setFinishDate(new SimpleDateFormat("yyyy-mm-dd 00:00:00").format(DataNascFr)); 
-            }
-        } catch (ParseException ex) {
-            Logger.getInstance().setLog("Erro no parser de date");
+        if (request.getParameter("startDate") != null) {
+            service.setStartDate(request.getParameter("startDate"));
         }
-        
+        if (request.getParameter("finishDate") != null) {
+            service.setFinishDate(request.getParameter("finishDate"));
+        }
         return service;
 
     }
@@ -97,10 +89,11 @@ public class doSolicitationAction extends Command {
 
     private void ProviderAccept() {
         Service service = this.getObjService();
+        Logger.getInstance().setLog("datas: start" + service.getStartDate() + " finish" + service.getFinishDate() + " price:" + service.getPrice());
+
         ServiceDAO sDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         sDao = (ServiceDAO) factory.getDAOObject(DAOFactory.DAODataType.ServiceDAO);
         sDao.acceptSolicitation(service);
-       
     }
 }

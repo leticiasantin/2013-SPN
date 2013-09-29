@@ -26,6 +26,7 @@
                             reason: desc
                         }
                     }).success(function(data) {
+                        imagesHide()
                         alert('Solicitação cancelada com sucess. Atualize a página');
                     }).error(function() {
                         alert('Falha ao cancelar');
@@ -33,6 +34,13 @@
         }
     
     }
+    
+     function imagesHide(sId) {
+        var reject = "#reject"+sId;
+        var accept = "#accept"+sId;
+        $(reject).hide();
+        $(accept).hide();
+     }
 </script>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -47,6 +55,7 @@
         <table>
             <caption><h2>Pendências como prestador </h2></caption>
             <tr>
+                <th id="number">Número </th>
                 <th id="cName">Nome do Cliente</th>
                 <th id="cLocal">Endereço</th>
                 <th id="cDescription">Descrição do Serviço</th>
@@ -56,24 +65,18 @@
             <fn
             <c:forEach var="service" items="${providerPendencies}">
                 <tr>
+                <td headers="number"></td>
                     <td headers="cName">${service.clientName}</td>
                     <td headers="cLoca">${service.clientAddress}</td>
                     <td headers="cDescription">${service.description}</td>
                     <td headers="cRequest"> ${service.clientRequestDat} </td>
                     <td headers="pResponse">
-                        <img id="delete" src="icons/delete.png" onclick="javascript: rejectSolicitation(${service.serviceId})"/>
-                        <a href="javascript:openPopup('solicitationAcceptedForm.jsp?serviceId=${service.serviceId}')"> <img src="icons/check.png"/></a>
+                        <img id="reject${service.serviceId}" src="icons/delete.png" onclick="javascript: rejectSolicitation(${service.serviceId});" />
+                        <a id="accept${service.serviceId}" href="javascript:openPopup('solicitationAcceptedForm.jsp?serviceId=${service.serviceId}')" onclick="imagesHide(${service.serviceId});"> <img src="icons/check.png"/></a>
                     </td>
                 </tr>
             </c:forEach>
         </table>
     </c:when>
-    <c:otherwise>
-        Você Não possui pendências como Prestador
-    </c:otherwise>
-  
 </c:choose>
 
-
-
- ${fn:length(providerPendencies)}

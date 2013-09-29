@@ -6,16 +6,17 @@
 <form id="formHeader" name="formHeader" method="post" action="Controller">
     <ul>
         <li id="welcome">Home </li>
-   
+
         <li id="profile">Editar Perfil</li>
-   
+
         <li id="divulgationPage">  Página de Divulgação</li>
-   
-        <li id="pendencies">Pendencias</li>
-   
-   
+
+        <li id="solicitation">Solicitações Pendentes</li>
+
+        <li id="evaluation">Avaliações Pendentes</li>
+
         <li id="category">Minhas Categorias</li>
-   
+
         <li id="logout">Logout</li> 
     </ul>
     <ul>

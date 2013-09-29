@@ -29,7 +29,7 @@ public abstract class DAOFactory {
 
     public enum DAODataType {
 
-        UserDAO, ServiceDAO, DivulgationPageDAO, CategoryDAO, ProviderDAO
+        UserDAO, ServiceDAO, DivulgationPageDAO, CategoryDAO, ProviderDAO, ServiceEvaluationDAO
     }
 
     public static DAOFactory getDAOFactory() {

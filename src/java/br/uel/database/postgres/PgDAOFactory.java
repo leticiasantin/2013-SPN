@@ -50,6 +50,8 @@ public class PgDAOFactory extends DAOFactory {
                 return new PgProviderDAO(this);
             case ServiceDAO:
                 return new PgServiceDAO(this);
+            case ServiceEvaluationDAO:
+                return new PgServiceEvaluationDAO(this);
             default:
                 return null;
         }

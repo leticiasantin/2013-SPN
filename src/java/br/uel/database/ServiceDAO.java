@@ -18,4 +18,6 @@ public abstract class ServiceDAO {
       public abstract List<Service> pendencesListAsClient(int cId);
       public abstract void rejectSolicitation(Service service);
       public abstract void acceptSolicitation(Service service);
+      public abstract List<Service> listNotAssessedClient(int clientId);
+      public abstract List<Service> listNotAssessedProvider(int providerId);
 }
