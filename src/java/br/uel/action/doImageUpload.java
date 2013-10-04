@@ -57,7 +57,7 @@ public class doImageUpload extends HttpServlet {
                     List items = upload.parseRequest(request);
                     Iterator iter = items.iterator();
                     FileItem item;
-                    String type = null, id = null;
+                    String type = null, id = null, userType = null;
                     while (iter.hasNext()) {
                         item = (FileItem) iter.next();
 
@@ -71,7 +71,19 @@ public class doImageUpload extends HttpServlet {
                                 }
                             } else if (item.getFieldName().equals("id")) {
                                 id = item.getString();
-                            }
+                            
+                            } else if (item.getFieldName().equals("userType")) {
+                                userType  = item.getString();
+                                if (userType.equals("c")){
+                                    
+                                }
+                                else {
+                                    
+                                }
+                                
+                                
+                                
+                            } 
                         }
 
                         if (!item.isFormField()) {
@@ -99,7 +111,7 @@ public class doImageUpload extends HttpServlet {
                                 }
 
 
-                                /*para inserir o nome das imagens de serviço é 
+                                /* para inserir o nome das imagens de serviço é 
                                  *  preciso saber o id da imagem então esse é o 
                                  * proximo passo por enquanto fica como o id 
                                  */

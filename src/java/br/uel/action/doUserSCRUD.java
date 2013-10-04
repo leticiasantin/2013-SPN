@@ -8,7 +8,6 @@ import br.uel.controller.Command;
 import br.uel.database.DAOFactory;
 import br.uel.database.UserDAO;
 import br.uel.entity.User;
-import br.uel.log.Logger;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -36,7 +35,7 @@ public class doUserSCRUD extends Command {
         } else if (m.equalsIgnoreCase("loginExist")) {
             loginExist();
         }
-
+       
 
     }
 
@@ -49,56 +48,55 @@ public class doUserSCRUD extends Command {
                 DAOFactory factory = DAOFactory.getDAOFactory();
                 uDao = (UserDAO) factory.getDAOObject(DAOFactory.DAODataType.UserDAO);
                 if (u.getUserId() == null) {
-                    Logger.getInstance().setLog(" create ");
                     uDao.create(u);
-                    Logger.getInstance().setLog("created");
+                    templateView.setTitle("Perfil").setContent("index").setMessage("Usuário Salvo com sucesso").setFooter(null);
                 } else {
                     //marcou a opção para desativar a conta
-                  if (request.getParameter("disable") != null){
-                      uDao.deleteByUser(u.getUserId());
-                      templateView.setGuestAttributes();
-                      super.dispatcher();
-                  }
-                  else {
-                    Logger.getInstance().setLog(" update " + u.getUserId());
-                    uDao.update(u);
-                  }
+                    if (request.getParameter("disable") != null) {
+                        uDao.deleteByUser(u.getUserId());
+                        templateView.setGuestAttributes();
+                        super.dispatcher();
+                    } else {
+                        uDao.update(u);
+                        templateView.setTitle("Perfil").setContent("userWelcome").setMessage("Usuário Salvo com sucesso").setFooter(null);
+                    }
                 }
-                templateView.setTitle("Perfil").setUserAttributes().setContent("userWelcome").setMessage("Usuário Salvo com sucesso").setFooter(null);
+
                 super.dispatcher();
             } catch (Exception ex) {
                 templateView.setTitle("erro").setMessage("Erro ao salvar o cadastro").setMenu(null).setContent("error").setFooter(null);
             }
-        } 
+        }
+        super.dispatcher();
     }
 
     private User getObjUser() {
         User u = new User();
-        if (request.getParameter("login") != null) {
+        if (request.getParameter("login") != null && !request.getParameter("login").isEmpty()) {
             u.setLogin(request.getParameter("login"));
         }
-        if (request.getParameter("name") != null) {
+        if (request.getParameter("name") != null && !request.getParameter("name").isEmpty()) {
             u.setName((String) request.getParameter("name"));
         }
-        if (request.getParameter("password") != null) {
+        if (request.getParameter("password") != null && !request.getParameter("password").isEmpty()) {
             u.setPassword((String) request.getParameter("password"));
         }
-        if (request.getParameter("userId") != null) {
+        if (request.getParameter("userId") != null && !request.getParameter("userId").isEmpty()) {
             u.setUserId(Integer.parseInt(request.getParameter("userId")));
         }
-        if (request.getParameter("complement") != null) {
+        if (request.getParameter("complement") != null && !request.getParameter("complement").isEmpty()) {
             u.setComplement(String.valueOf(request.getParameter("complement")));
         }
-        if (request.getParameter("state") != null) {
+        if (request.getParameter("state") != null && !request.getParameter("state").isEmpty()) {
             u.setState(String.valueOf(request.getParameter("state")));
         }
-        if (request.getParameter("zipcode") != null) {
+        if (request.getParameter("zipcode") != null && !request.getParameter("zipcode").isEmpty()) {
             u.setZipCode(String.valueOf(request.getParameter("zipcode")));
         }
         if (request.getParameter("neighborhood") != null) {
             u.setNeighborhood(String.valueOf(request.getParameter("neighborhood")));
         }
-        if (request.getParameter("number") != null) {
+        if (request.getParameter("number") != null && !request.getParameter("number").isEmpty()) {
             u.setNumber(Integer.parseInt(request.getParameter("number")));
         }
         if (request.getParameter("city") != null) {
@@ -139,7 +137,7 @@ public class doUserSCRUD extends Command {
 //        if (u.getDtOfBirth() == null) {
 //            return false;
 //        } else {
-       // u.setDtOfBirth(u.getDtOfBirth().replaceAll("/", "-"));
+        // u.setDtOfBirth(u.getDtOfBirth().replaceAll("/", "-"));
 //        }
         return true;
     }
@@ -191,7 +189,7 @@ public class doUserSCRUD extends Command {
         UserDAO uDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         uDao = (UserDAO) factory.getDAOObject(DAOFactory.DAODataType.UserDAO);
-        if (uDao.userExistsByLogin(login)){
+        if (uDao.userExistsByLogin(login)) {
             throw new Exception();
         }
     }

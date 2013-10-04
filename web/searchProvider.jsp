@@ -41,7 +41,13 @@
         
        
 </script>
-
+Busca por palavra chave: 
+<form action="Controller" method="POST">
+<input type="text" maxlength="50" name="keyword"/>
+<input type="submit" value="Buscar"/>
+<input type="hidden" name="c" value="doSearchProvider"/>
+<input type="hidden" name="m" value="searchByKeyWord"/>
+</form>
 
 
 <jsp:useBean id="category" class="br.uel.entity.Category"/>
@@ -60,3 +66,6 @@
         </c:forEach>
     </dl>
 </table>
+
+
+

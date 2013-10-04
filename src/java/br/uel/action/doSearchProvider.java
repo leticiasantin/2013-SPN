@@ -23,7 +23,8 @@ public class doSearchProvider extends Command {
             Show();
         } else if (m.equalsIgnoreCase("searchByCategory")) {
             searchByCategory();
-        } else if (m.equalsIgnoreCase("option3")) {
+        } else if (m.equalsIgnoreCase("searchByKeyWord")) {
+            searchByKeyWord();
         }
 
     }
@@ -37,13 +38,26 @@ public class doSearchProvider extends Command {
 
     private void searchByCategory() {
         int catId = Integer.parseInt(request.getParameter("catId"));
-        User u =  (User)request.getSession().getAttribute("user");
+       
         ProviderDAO pDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         pDao = (ProviderDAO) factory.getDAOObject(DAOFactory.DAODataType.ProviderDAO);
-        List<ProviderSought> ps = pDao.searchByCategory(u.getUserId(), catId, 10, 0);
+        List<ProviderSought> ps = pDao.searchByCategory(catId, 10, 0);
         request.setAttribute("providersSought", ps);
         templateView.setContent("resultsSearchProvider");
         super.dispatcher();
+    }
+
+    private void searchByKeyWord() {
+        String keyword = request.getParameter("keyword");
+        ProviderDAO pDao;
+        DAOFactory factory = DAOFactory.getDAOFactory();
+        pDao = (ProviderDAO) factory.getDAOObject(DAOFactory.DAODataType.ProviderDAO);
+        List<ProviderSought> ps = pDao.searchByKeyWord(keyword, 10, 0);
+        request.setAttribute("providersSought", ps);
+        templateView.setContent("resultsSearchProvider");
+        super.dispatcher();
+        
+        
     }
 }

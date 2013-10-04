@@ -81,6 +81,7 @@ public class TemplateView {
     public TemplateView setAdminAttributes() {
         this.header = "adminHeader";
         this.menu = "adminMenu";
+        this.content = "adminWelcome";
         return this;
        
     }
@@ -88,6 +89,7 @@ public class TemplateView {
     public TemplateView setUserAttributes() {
         this.header = "userHeader";
         this.menu = "userMenu";
+        this.content = "userWelcome";
         return this;
     }
 

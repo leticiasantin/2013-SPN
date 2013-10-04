@@ -17,6 +17,7 @@ public class DivulgationPage {
     private int profileId;
     private int providerId;
     private String description;
+    private User user;
     private List<String> pictures;
     private List<Category> categories;
 
@@ -66,6 +67,14 @@ public class DivulgationPage {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

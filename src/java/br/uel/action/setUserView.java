@@ -12,20 +12,26 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author leticia
  */
-public class setUserView extends Command{
+public class setUserView extends Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.init(request, response);
         String m = request.getParameter("m");
         if (m.equalsIgnoreCase("edit")) {
-            Edit();
-        }  
+            edit();
+        } else if (m.equalsIgnoreCase("welcome")) {
+            goWelcome();
+        }
     }
 
-    private void Edit() {
+    private void edit() {
         templateView.setTitle("EditarCadastro").setUserAttributes().setContent("userCrud").setMessage("Edite seus dados").setFooter(null);
         super.dispatcher();
     }
-    
+
+    private void goWelcome() {
+        templateView.setTitle("Página Incial");
+        super.dispatcher();
+    }
 }

@@ -35,10 +35,8 @@ public class doCategoryCrud extends Command {
         super.init(request, response);
         String m = request.getParameter("m");
         if (m.equalsIgnoreCase("save")) {
-            Logger.getInstance().setLog("entrou no save");
-
-            save();
-            Logger.getInstance().setLog("entrou no save");
+          
+            save(); 
         } else if (m.equalsIgnoreCase("update")) {
             /*
              * Faz o update do nome da categoria
@@ -70,7 +68,7 @@ public class doCategoryCrud extends Command {
          * categorias disponiveis para adicionar
          */
         List<Category> availableCategories = null;
-        availableCategories = cDao.listOfAvailableCategories();
+        availableCategories = cDao.list();
         request.setAttribute("availableCategories", availableCategories);
         templateView.setTitle("Minhas Categorias").setUserAttributes().setContent("categories").setFooter(null);
         super.dispatcher();

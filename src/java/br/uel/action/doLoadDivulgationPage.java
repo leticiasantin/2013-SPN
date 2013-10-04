@@ -8,6 +8,7 @@ import br.uel.controller.Command;
 import br.uel.database.CategoryDAO;
 import br.uel.database.DAOFactory;
 import br.uel.database.DivulgationPageDAO;
+import br.uel.database.UserDAO;
 import br.uel.entity.Category;
 import br.uel.entity.DivulgationPage;
 import br.uel.entity.User;
@@ -27,21 +28,19 @@ public class doLoadDivulgationPage extends Command {
 
         super.init(request, response);
         User u = (User) request.getSession().getAttribute("user");
-        int userId;
+        int userId = 0;
         /*
          * manda o id usuario a ser visitado o profile
          */
         if (request.getParameter("uid") != null) {
-            Logger.getInstance().setLog("tem parametro");
             userId = Integer.parseInt(request.getParameter("uid"));
-            templateView.setContent("divulgationPage");
-        } /*
-         * carregando próprio profile
-         */ else {
-              Logger.getInstance().setLog("do usuário");
-            userId = u.getUserId();
-            request.setAttribute("owner", true);
-            templateView.setContent("divulgationPageCrud");
+            if (userId == u.getUserId()) {
+                Logger.getInstance().setLog("Pagina do propio usuário");
+                request.setAttribute("owner", "true");
+            } else {
+                Logger.getInstance().setLog("tem parametro");
+                templateView.setExtra("extraDivulgationPage");
+            }
         }
 
         DivulgationPageDAO pDao;
@@ -52,6 +51,13 @@ public class doLoadDivulgationPage extends Command {
 
         if (profile != null) {
             /*
+             * Carrega o usuario dono da pagina
+             */
+            UserDAO uDao;
+            uDao = (UserDAO) factory.getDAOObject(DAOFactory.DAODataType.UserDAO);
+            profile.setUser(uDao.read(userId));
+  
+            /*
              * Carrega as categorias do provider
              */
             CategoryDAO cDao;
@@ -61,7 +67,7 @@ public class doLoadDivulgationPage extends Command {
                 profile.setCategories(list);
             }
         }
-        templateView.setTitle("Perfil de Usuário").setExtra("extraDivulgationPage").setFooter(null);
+        templateView.setTitle("Perfil de Usuário").setContent("divulgationPage").setFooter(null);
         request.setAttribute("dPage", profile);
         super.dispatcher();
 

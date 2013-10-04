@@ -38,8 +38,7 @@ public class PgProviderDAO extends ProviderDAO {
             Connection conn = daoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, pId);
-            ResultSet rs = ps.executeQuery();
-
+            ps.executeQuery();
             conn.close();
 
         } catch (SQLException ex) {
@@ -66,15 +65,15 @@ public class PgProviderDAO extends ProviderDAO {
     public void delete(int pId) throws DAOException {
         try {
             String query = "DELETE FROM spn.provider WHERE provider_id=?";
-             Connection conn = daoFactory.getConnection();
-                PreparedStatement ps = conn.prepareStatement(query);
-                ps.setInt(1, pId);
-                ps.executeUpdate();
-                conn.close();
+            Connection conn = daoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, pId);
+            ps.executeUpdate();
+            conn.close();
         } catch (SQLException ex) {
-            throw new DAOException(ex.getMessage(),ex.getCause());
+            throw new DAOException(ex.getMessage(), ex.getCause());
         }
-        
+
     }
 
     @Override
@@ -113,12 +112,12 @@ public class PgProviderDAO extends ProviderDAO {
     public void connect(Integer userId, int catId) {
         try {
             String query = "INSERT INTO spn.prov_has_cat VALUES(?,?);";
-                Connection conn = daoFactory.getConnection();
-                PreparedStatement ps = conn.prepareStatement(query);
-                ps.setInt(1,userId);
-                ps.setInt(2, catId);
-                 ps.execute();
-                conn.close();
+            Connection conn = daoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, userId);
+            ps.setInt(2, catId);
+            ps.execute();
+            conn.close();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(PgProviderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -128,42 +127,70 @@ public class PgProviderDAO extends ProviderDAO {
     public void disconnect(Integer userId, int catId) {
         try {
             String query = "DELETE FROM spn.prov_has_cat WHERE provider_id=? AND cat_id=?;";
-                Connection conn = daoFactory.getConnection();
-                PreparedStatement ps = conn.prepareStatement(query);
-                ps.setInt(1, userId);
-                ps.setInt(2, catId);
-               ps.execute();
-                conn.close();
-                
+            Connection conn = daoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, userId);
+            ps.setInt(2, catId);
+            ps.execute();
+            conn.close();
+
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(PgProviderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public List<ProviderSought> searchByCategory(int userId,int catId, int limit, int offset) {
-         ArrayList<ProviderSought> array = new ArrayList();
+    public List<ProviderSought> searchByCategory( int catId, int limit, int offset) {
+        ArrayList<ProviderSought> array = new ArrayList();
         try {
             String query = "SELECT u.user_id, u.name AS user_name,u.city, u.state, prov_cat.cat_id,prov_cat.name AS cat_name  FROM spn.user u INNER JOIN "
                     + " (SELECT * FROM spn.prov_has_cat NATURAL JOIN "
-                        + "(SELECT * FROM spn.category WHERE cat_id = ? LIMIT 1) as category) AS prov_cat"
-                    + " ON u.user_id = prov_cat.provider_id AND u.user_id <> ? LIMIT ? OFFSET ?; ";
-                    Connection conn = daoFactory.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(query);
-                    ps.setInt(1,catId);
-                    ps.setInt(2,userId);
-                    ps.setInt(3, limit);
-                    ps.setInt(4, offset);
-                    ResultSet rs = ps.executeQuery();
-                     while (rs.next()){
-                         array.add(this.getObjProviderSought(rs));
-                     }
-                    conn.close();
+                    + "(SELECT * FROM spn.category WHERE cat_id = ? LIMIT 1) as category) AS prov_cat"
+                    + " ON u.user_id = prov_cat.provider_id LIMIT ? OFFSET ?; ";
+            Connection conn = daoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, catId);
            
+            ps.setInt(2, limit);
+            ps.setInt(3, offset);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                array.add(this.getObjProviderSought(rs));
+            }
+            conn.close();
+
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(PgProviderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-         return array;
+        return array;
+    }
+
+    @Override
+    public List<ProviderSought> searchByKeyWord(String keyword, int limit, int offset) {
+        ArrayList<ProviderSought> array = new ArrayList();
+        try {
+
+            String query = "SELECT u.user_id, u.name AS user_name,u.city, u.state, prov_cat.cat_id,prov_cat.name AS cat_name  FROM spn.user u INNER JOIN "
+                    + " (SELECT * FROM spn.prov_has_cat NATURAL JOIN "
+                    + "(" + this.getLikesCategory(keyword) + ") as category) AS prov_cat"
+                    + " ON u.user_id = prov_cat.provider_id LIMIT ? OFFSET ?; ";
+            Logger.getInstance().setLog("teste query : " + query);
+            Connection conn = daoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+           
+            ps.setInt(1, limit);
+            ps.setInt(2, offset);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                array.add(this.getObjProviderSought(rs));
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(PgProviderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return array;
+
+
     }
 
     private ProviderSought getObjProviderSought(ResultSet rs) throws SQLException {
@@ -175,5 +202,15 @@ public class PgProviderDAO extends ProviderDAO {
         ps.setCatId(rs.getInt("cat_id"));
         ps.setCatName(rs.getString("cat_name"));
         return ps;
+    }
+
+    private String getLikesCategory(String keyword) {
+        String str = "SELECT * FROM spn.category ";
+        String s[] = keyword.split(" ");
+        str += " WHERE upper(name) LIKE upper('%" + s[0] + "%') ";
+        for (int i = 1; i < s.length; i++) {
+            str += " OR upper(name) LIKE upper('%" + s[i] + "%') ";
+        }
+        return str;
     }
 }

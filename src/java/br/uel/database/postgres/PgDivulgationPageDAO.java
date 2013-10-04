@@ -27,14 +27,11 @@ public class PgDivulgationPageDAO extends DivulgationPageDAO {
     public void create(DivulgationPage p) throws DAOException {
         try {
             String query = "INSERT INTO spn.divulgation_page(provider_id)"
-                    + " VALUES (?) RETURNING profile_id,description,provider_id;";
+                    + " VALUES (?) ";
             Connection conn = daoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, p.getProviderId());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                p = this.getObjProfile(rs);
-            }
+            ps.execute();
             conn.close();
         } catch (SQLException ex) {
             throw new DAOException(ex.getMessage(), ex.getCause());
@@ -44,7 +41,7 @@ public class PgDivulgationPageDAO extends DivulgationPageDAO {
     @Override
     public DivulgationPage read(int pid) throws DAOException {
         String query = "SELECT * FROM spn.divulgation_page prof NATURAL JOIN spn.provider prov "
-                + "WHERE prov.status=true AND prof.provider_id=? LIMIT 1";
+                + " WHERE prov.status=true AND prof.provider_id=? LIMIT 1";
         DivulgationPage p = null;
         try {
             Connection conn = daoFactory.getConnection();

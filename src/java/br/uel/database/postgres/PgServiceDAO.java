@@ -139,16 +139,18 @@ public class PgServiceDAO extends ServiceDAO {
     public List<Service> listNotAssessedClient(int clientId) {
          ArrayList<Service> services = new ArrayList();
         try {
-            String query = "SELECT * FROM spn.service"
-                    + " WHERE client_id=? and finish_date < 'TODAY' and "
-                    + " service_id NOT IN (SELECT service_id from spn.service_evaluation);";
+            String query = "SELECT s.*, u.name as provider_name FROM spn.service s, spn.user u "
+                        + " WHERE s.client_id=? and s.finish_date < 'TODAY' AND "
+                            + " s.service_id NOT IN (SELECT service_id from spn.service_evaluation) "
+                            + " AND u.user_id=s.provider_id";
              Connection conn = daoFactory.getConnection();
                 PreparedStatement ps = conn.prepareStatement(query);
                 ps.setInt(1,clientId);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()){
                     Service s = this.getService(rs);
-                    services.add(s);
+                    s.setProviderName(rs.getString("provider_name"));
+                   services.add(s);
                 }
             conn.close();
         } catch (SQLException ex) {
@@ -161,21 +163,27 @@ public class PgServiceDAO extends ServiceDAO {
     public List<Service> listNotAssessedProvider(int providerId) {
       ArrayList<Service> services = new ArrayList();
         try {
-            String query = "SELECT s.*, u.name, u.user_id FROM spn.service s,spn.user u"
-                    + " WHERE  provider_id=? and service_id IN " +
-                        "(SELECT service_id from spn.service_evaluation) and u.user_id=s.client_id";
+            String query = "SELECT s.*, u.name AS client_name, u.street || ' nº '||u.number|| ', '|| u.complements||' <br/> '||u.neighborhood || ', ' || u.city || '-'||u.state as client_address "
+                    + " FROM spn.service s,spn.user u "
+                    + " WHERE  provider_id=? and service_id IN "
+                    + " (SELECT service_id FROM spn.service_evaluation "
+                        + "WHERE p_dat_assessment IS NULL ) "
+                    + " and u.user_id=s.client_id";
              Connection conn = daoFactory.getConnection();
                 PreparedStatement ps = conn.prepareStatement(query);
                 ps.setInt(1,providerId);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()){
                     Service s = this.getService(rs);
+                    s.setClientName(rs.getString("client_name"));
+                    s.setClientAddress(rs.getString("client_address"));
                     services.add(s);
                 }
             conn.close();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(PgServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
          return services;
     }
 }

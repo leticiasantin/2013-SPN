@@ -6,13 +6,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:choose>
-    <c:when test="${not empty request.serviceId}">
+    <c:when test="${not empty param.serviceId}">
         <c:choose>
-            <c:when test="${not empty param.providerId}">
-                Provider
+            <c:when test="${not empty param.provider}">
+                <jsp:include page="forms/providerEvaluation.jsp?serviceId=${param.serviceId}"/>
             </c:when>
-            <c:when test="${not empty param.clientId}">
-                Client
+            <c:when test="${not empty param.client}">
+                <jsp:include page="forms/clientEvaluation.jsp?serviceId=${param.serviceId}"/>
             </c:when>
             <c:otherwise>
                 sem parametro

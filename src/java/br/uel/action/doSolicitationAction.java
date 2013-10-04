@@ -6,9 +6,6 @@ import br.uel.database.ServiceDAO;
 import br.uel.entity.Service;
 import br.uel.entity.User;
 import br.uel.log.Logger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -89,8 +86,6 @@ public class doSolicitationAction extends Command {
 
     private void ProviderAccept() {
         Service service = this.getObjService();
-        Logger.getInstance().setLog("datas: start" + service.getStartDate() + " finish" + service.getFinishDate() + " price:" + service.getPrice());
-
         ServiceDAO sDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         sDao = (ServiceDAO) factory.getDAOObject(DAOFactory.DAODataType.ServiceDAO);

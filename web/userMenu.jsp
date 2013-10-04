@@ -7,7 +7,7 @@
     <ul>
         <li id="welcome">Home </li>
 
-        <li id="profile">Editar Perfil</li>
+        <li id="editProfile">Editar Perfil</li>
 
         <li id="divulgationPage">  Página de Divulgação</li>
 

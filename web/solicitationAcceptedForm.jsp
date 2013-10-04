@@ -4,15 +4,14 @@
 <html>
     <head>
         <script  src="js/jquery.js"></script>
-        <script  src="js/timepicker.js"></script>
         <script  src="js/jquery/js/jquery-ui.js"></script>        
         <link type="text/css" href="js/jquery/css/south-street/jquery-ui.css" rel="stylesheet" />
 
         <script type="text/javascript">
             $(document).ready(function() {
-                $("#startDate").datepicker({dateFormat: 'yy-mm-dd', minDate: 'today',
+                $("#startDate").datepicker({dateFormat: 'yy-mm-dd',
                     yearRange: '-0:+10', changeMonth: true});
-                $("#finishDate").datepicker({dateFormat: 'yy-mm-dd', minDate: 'today',
+                $("#finishDate").datepicker({dateFormat: 'yy-mm-dd',
                     yearRange: '-0:+10', changeMonth: true});
 
                 $("#finishDate").change(function() {

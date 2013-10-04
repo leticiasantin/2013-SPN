@@ -1,12 +1,16 @@
 $(document).ready(function() {
 
     $("#welcome").click(function() {
-        $(window.document.location).attr('href', "welcome.jsp");
+         $("#c").val('setUserView');
+        $("#m").val('welcome');
+        $("#formHeader").submit();
+       
     });
-    $("#profile").click(function() {
-        $("#c").val('setUserView');
+    $("#editProfile").click(function() {
+         $("#c").val('setUserView');
         $("#m").val('edit');
         $("#formHeader").submit();
+       
     });
     $("#logout").click(function() {
         $("#c").val('doLog');
@@ -24,7 +28,6 @@ $(document).ready(function() {
         $("#formHeader").submit();
     });
     $("#evaluation").click(function() {
-        alert("hello");
         $("#c").val('doServiceEvaluation');
         $("#m").val('list');
         $("#formHeader").submit();
@@ -33,10 +36,4 @@ $(document).ready(function() {
         $("#c").val('doLoadDivulgationPage');
         $("#formHeader").submit();
     });
-    
-    
-    
-
 });
-
-

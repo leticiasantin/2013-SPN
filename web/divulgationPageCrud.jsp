@@ -18,32 +18,46 @@
                 alert('Falha ao salvar');
             });
         });
-        
-        
-    });
 
+
+    });
 
 </script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:useBean id="profile" class="br.uel.entity.DivulgationPage" scope="session"/>  
+<jsp:useBean id="dPage" class="br.uel.entity.DivulgationPage" scope="request"/>  
 
-<form id="profileForm"  name="profileForm" action="Controller" hidden="hidden" >
-    <input type="hidden" id="pageId" name="pageId" value="${profile.profileId}" />
-    <input type="hidden" id="pId" name="pId" value="${profile.providerId}" />
-    <jsp:include page = "forms/profile.jsp" /> 
-    <input type="checkbox" id="delPage" name="delPage" value="t"/>Cancelar Minha Página<br>
-    <input type="submit" id="submit" name="submit" value="Atualizar" />
-    <input type="hidden" id="c" name="c" value="doDivulgationPageCrud" />
-    <input type="hidden" id="m" name="m" value="save" /> 
-</form>
 <c:choose>
-    <c:when test="${not empty param.owner}">
-        
-    </c:when>
-    <c:when test="${profile.profileId != 0}">
-        <script type="text/javascript">
-            $("#profileForm").show();
-        </script>
+
+    <c:when test="${not empty dPage}">
+
+        <form id="profileForm"  name="profileForm" action="Controller"  >
+            <input type="hidden" id="pageId" name="pageId" value="${dPage.profileId}" />
+            <input type="hidden" id="pId" name="pId" value="${dPage.providerId}" />
+            <table>
+                <tr>
+                    <td>  
+                        <textarea id="pDescription" name="pDescription" rows="10" cols="40" maxlength="1024" >${dPage.description}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Fotos de Divulgação
+                    </td>
+                </tr>
+            </table>
+
+            <div id="images">
+                <c:forEach var="picture" items="${dPage.pictures}" >
+                    <img src="${picture}" />
+                </c:forEach>
+            </div>
+
+            <input type="checkbox" id="delPage" name="delPage" value="t"/>Cancelar Minha Página<br>
+            <input type="submit" id="submit" name="submit" value="Atualizar" />
+            <input type="hidden" id="c" name="c" value="doDivulgationPageCrud" />
+            <input type="hidden" id="m" name="m" value="save" /> 
+        </form>
+
     </c:when>
     <c:otherwise>
         <nav id="isntAProvider">

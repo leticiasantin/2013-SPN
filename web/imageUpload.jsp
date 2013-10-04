@@ -14,15 +14,16 @@
     </head>
     <body>
         <c:choose>
-            <c:when test="${param.type eq 'p'}">
+            <c:when test="${param.type eq 'p' or param.type eq 's'}">
                 <form action="doImageUpload" enctype="multipart/form-data" method="post">
                     <label for="file">Arquivo:</label> 
                     <input type="hidden" id="type" name="type" value="${param.type}" />
                     <input type="hidden" name="id" value="${param.id}"/>
+                    <input type="hidden" name="userType" value="${param.userType}"/>
                     <input type="file" name="file" id="file"><br/>
                     <input type="submit" value="Enviar"/>
                 </form>
-            </c:when>
+            </c:when>           
             <c:otherwise>
                 não deu certo
             </c:otherwise>

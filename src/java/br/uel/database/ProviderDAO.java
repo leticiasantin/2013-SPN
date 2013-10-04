@@ -30,7 +30,9 @@ public abstract class ProviderDAO {
 
     public abstract void disconnect(Integer userId, int catId) ;
     
-    public abstract List<ProviderSought> searchByCategory(int userId,int catId, int limit, int offset);
+    public abstract List<ProviderSought> searchByCategory(int catId, int limit, int offset);
+
+    public abstract List<ProviderSought> searchByKeyWord(String keyword, int limit, int offset);
     
     
 }

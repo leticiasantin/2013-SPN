@@ -10,7 +10,6 @@ import br.uel.database.DAOFactory;
 import br.uel.database.DivulgationPageDAO;
 import br.uel.database.ProviderDAO;
 import br.uel.entity.DivulgationPage;
-import br.uel.log.Logger;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,15 +25,21 @@ public class doDivulgationPageCrud extends Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.init(request, response);
         String m = request.getParameter("m");
-        Logger.getInstance().setLog("m:" + m);
+
         if (m.equalsIgnoreCase("create")) {
             createPage();
-            Logger.getInstance().setLog("succesfully:" + m);
+
         } else if (m.equalsIgnoreCase("delete")) {
-            deleteProfile();
-            Logger.getInstance().setLog("succesfully:" + m);
+            deletePage();
+
         } else if (m.equalsIgnoreCase("save")) {
-            Save();
+            savePage();
+
+        } else if (m.equalsIgnoreCase("edit")) {
+            editPage();
+        } else {
+            templateView.setContent("index");
+            super.dispatcher();
         }
     }
 
@@ -53,11 +58,14 @@ public class doDivulgationPageCrud extends Command {
         pDao = (ProviderDAO) factory.getDAOObject(DAOFactory.DAODataType.ProviderDAO);
         pDao.create(dp.getProviderId());
         /*
-         * Cria o Profile no BD
+         * Cria o Profile no Banco
          */
         DivulgationPageDAO profDao = (DivulgationPageDAO) factory.getDAOObject(DAOFactory.DAODataType.DivulgationPageDAO);
         profDao.create(dp);
-        request.getSession().setAttribute("page", dp);
+        dp = profDao.read(dp.getProviderId());
+        request.setAttribute("dPage", dp);
+        templateView.setContent("divulgationPageCrud");
+        super.dispatcher();
     }
 
     private DivulgationPage getObjPage() {
@@ -76,7 +84,7 @@ public class doDivulgationPageCrud extends Command {
         return p;
     }
 
-    private void deleteProfile() {
+    private void deletePage() {
         int providerId = Integer.parseInt(request.getParameter("pId"));
         ProviderDAO pDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
@@ -84,7 +92,7 @@ public class doDivulgationPageCrud extends Command {
         pDao.delete(providerId);
     }
 
-    private void Save() {
+    private void savePage() {
         DivulgationPage dp = this.getObjPage();
         try {
             DAOFactory factory = DAOFactory.getDAOFactory();
@@ -102,5 +110,19 @@ public class doDivulgationPageCrud extends Command {
         }
 
         super.dispatcher();
+    }
+
+    private void editPage() {
+        if (request.getParameter("dPageId") != null) {
+            DAOFactory factory = DAOFactory.getDAOFactory();
+            DivulgationPageDAO profDao = (DivulgationPageDAO) factory.getDAOObject(DAOFactory.DAODataType.DivulgationPageDAO);
+            DivulgationPage dPage = profDao.read(Integer.parseInt(request.getParameter("dPageId")));
+
+            request.setAttribute("dPage", dPage);
+            templateView.setMessage("nao é nulo");
+            templateView.setTitle("Editar Pagina de Divulgação").setContent("divulgationPageCrud");
+        }
+        super.dispatcher();
+
     }
 }

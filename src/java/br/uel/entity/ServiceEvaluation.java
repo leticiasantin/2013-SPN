@@ -15,6 +15,9 @@ public class ServiceEvaluation {
     private int cQualityOfService;
     private int cQualityOfCare;
     private String cComment;
+    private String cRealStartDate;
+    private String cRealFinishDate;
+    
     private int pAppropriatePayment;
     private int pMaterialsSupply;
     private int pComunicationWithClient;
@@ -98,6 +101,22 @@ public class ServiceEvaluation {
 
     public void setServiceId(int serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public String getcRealFinishDate() {
+        return cRealFinishDate;
+    }
+
+    public void setcRealFinishDate(String cRealFinishDate) {
+        this.cRealFinishDate = cRealFinishDate;
+    }
+
+    public String getcRealStartDate() {
+        return cRealStartDate;
+    }
+
+    public void setcRealStartDate(String cRealStartDate) {
+        this.cRealStartDate = cRealStartDate;
     }
     
     

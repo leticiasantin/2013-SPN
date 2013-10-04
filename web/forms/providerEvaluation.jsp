@@ -1,5 +1,4 @@
-<form>
-
+<form action="Controller" method="GET">
     <caption><h2>Avaliação do Prestador Codigo do serviço ${param.serviceId} </h2></caption>
     <table>
         <tr>
@@ -59,5 +58,8 @@
             <td colspan="2"><textarea name="pComment" maxlenght="1024" rows="10" cols="50" ></textarea></td>
         </tr>
     </table>
+    <input type="hidden" name="serviceId" value="${param.serviceId}">
+    <input type="hidden" name="c" value="doServiceEvaluation">
+    <input type="hidden" name="m" value="providerEvaluation">
     <input type="submit" value="sub"/>
 </form>

@@ -7,13 +7,11 @@ package br.uel.database.postgres;
 import br.uel.database.DAOException;
 import br.uel.database.DAOFactory;
 import br.uel.database.ServiceEvaluationDAO;
-import br.uel.entity.Service;
 import br.uel.entity.ServiceEvaluation;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,8 +30,8 @@ public class PgServiceEvaluationDAO extends ServiceEvaluationDAO {
         try {
             String query = "INSERT INTO spn.service_evaluation(service_id, c_price, "
                     + "c_respect_for_deadlines, c_quality_of_service,"
-                    + "c_quality_of_care, c_comment, c_dat_assessment)"
-                    + "VALUES (?, ?, ?, ?,?, ?, 'NOW');";
+                    + "c_quality_of_care, c_comment, c_real_start_date, c_real_finish_date,c_dat_assessment)"
+                    + "VALUES (?, ?, ?, ?,?, ?,?,?, 'NOW');";
             Connection conn = daoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, se.getServiceId());
@@ -42,8 +40,9 @@ public class PgServiceEvaluationDAO extends ServiceEvaluationDAO {
             ps.setInt(4, se.getcQualityOfService());
             ps.setInt(5, se.getcQualityOfCare());
             ps.setString(6, se.getcComment());
-            ResultSet rs = ps.executeQuery();
-
+            ps.setDate(7, Date.valueOf(se.getcRealStartDate()));
+            ps.setDate(8, Date.valueOf(se.getcRealFinishDate()));
+            ps.execute();
             conn.close();
         } catch (SQLException ex) {
             throw new DAOException(ex.getMessage(), ex.getCause());
@@ -63,6 +62,8 @@ public class PgServiceEvaluationDAO extends ServiceEvaluationDAO {
             ps.setInt(3, se.getpComunicationWithClient());
             ps.setString(4, se.getpComment());
             ps.setInt(5, se.getServiceId());
+            ps.executeUpdate();
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(PgServiceEvaluationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
