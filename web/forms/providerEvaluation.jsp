@@ -58,6 +58,7 @@
             <td colspan="2"><textarea name="pComment" maxlenght="1024" rows="10" cols="50" ></textarea></td>
         </tr>
     </table>
+     <a href="javascript:openPopup('imageUpload.jsp?type=s&id=${param.serviceId}&userType=p');">Inserir Foto</a>
     <input type="hidden" name="serviceId" value="${param.serviceId}">
     <input type="hidden" name="c" value="doServiceEvaluation">
     <input type="hidden" name="m" value="providerEvaluation">

@@ -11,7 +11,16 @@ package br.uel.entity;
 public class Picture {
     private int pictureId;
     private int serviceId;
+    private int pageId;
     private String image;
+
+    public int getPageId() {
+        return pageId;
+    }
+
+    public void setPageId(int pageId) {
+        this.pageId = pageId;
+    }
 
     public int getPictureId() {
         return pictureId;

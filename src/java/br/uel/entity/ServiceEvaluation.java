@@ -23,6 +23,14 @@ public class ServiceEvaluation {
     private int pComunicationWithClient;
     private String pComment;
 
+    public int getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(int serviceId) {
+        this.serviceId = serviceId;
+    }
+
     public int getcPrice() {
         return cPrice;
     }
@@ -63,6 +71,22 @@ public class ServiceEvaluation {
         this.cComment = cComment;
     }
 
+    public String getcRealStartDate() {
+        return cRealStartDate;
+    }
+
+    public void setcRealStartDate(String cRealStartDate) {
+        this.cRealStartDate = cRealStartDate;
+    }
+
+    public String getcRealFinishDate() {
+        return cRealFinishDate;
+    }
+
+    public void setcRealFinishDate(String cRealFinishDate) {
+        this.cRealFinishDate = cRealFinishDate;
+    }
+
     public int getpAppropriatePayment() {
         return pAppropriatePayment;
     }
@@ -95,31 +119,6 @@ public class ServiceEvaluation {
         this.pComment = pComment;
     }
 
-    public int getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(int serviceId) {
-        this.serviceId = serviceId;
-    }
-
-    public String getcRealFinishDate() {
-        return cRealFinishDate;
-    }
-
-    public void setcRealFinishDate(String cRealFinishDate) {
-        this.cRealFinishDate = cRealFinishDate;
-    }
-
-    public String getcRealStartDate() {
-        return cRealStartDate;
-    }
-
-    public void setcRealStartDate(String cRealStartDate) {
-        this.cRealStartDate = cRealStartDate;
-    }
-    
-    
     
     
 }

@@ -4,6 +4,9 @@
  */
 package br.uel.action;
 
+import br.uel.database.DAOFactory;
+import br.uel.database.PictureDAO;
+import br.uel.entity.Picture;
 import br.uel.log.Logger;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -42,7 +45,7 @@ public class doImageUpload extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       
+
         try {
             //Verifica se possui um fileUpload request
             boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -58,6 +61,11 @@ public class doImageUpload extends HttpServlet {
                     Iterator iter = items.iterator();
                     FileItem item;
                     String type = null, id = null, userType = null;
+                    Picture pic = new Picture();
+                    PictureDAO pDao;
+                    DAOFactory dFactory = DAOFactory.getDAOFactory();
+                    pDao = (PictureDAO) dFactory.getDAOObject(DAOFactory.DAODataType.PictureDAO);
+
                     while (iter.hasNext()) {
                         item = (FileItem) iter.next();
 
@@ -68,22 +76,28 @@ public class doImageUpload extends HttpServlet {
                                     type = "/profiles/";
                                 } else if (type.equalsIgnoreCase("s")) {
                                     type = "/services/";
+
+                                } else if (type.equalsIgnoreCase("page")) {
+                                    type = "/pages/";
                                 }
                             } else if (item.getFieldName().equals("id")) {
                                 id = item.getString();
-                            
+
                             } else if (item.getFieldName().equals("userType")) {
-                                userType  = item.getString();
-                                if (userType.equals("c")){
-                                    
+                                userType = item.getString();
+                                type += userType + "/";
+                                if (userType.equals("c")) {
+
+                                    pic.setServiceId(Integer.parseInt(id));
+                                    pic.setImage(type);
+                                    pDao.createClientPicture(pic);
+                                } else if (userType.equals("p")) {
+
+                                    pic.setServiceId(Integer.parseInt(id));
+                                    pic.setImage(type);
+                                    pDao.createProviderPicture(pic);
                                 }
-                                else {
-                                    
-                                }
-                                
-                                
-                                
-                            } 
+                            }
                         }
 
                         if (!item.isFormField()) {
@@ -98,17 +112,24 @@ public class doImageUpload extends HttpServlet {
                                 if (!directory.exists()) {
                                     directory.mkdir();
                                 }
+                                if (type.contains("services") || type.contains("page")) {
 
-                                if (type.contains("services")) {
-
-                                    directory = new File(directory.getAbsolutePath() +"/" + id);
-
+                                    directory = new File(directory.getAbsolutePath());
+                                   
                                     //se o diretorio não existir, cria-se o diretório
                                     if (!directory.exists()) {
                                         directory.mkdir();
                                     }
 
+
                                 }
+                                
+                                  if (type.contains("page")) {
+                                        pic.setServiceId(Integer.parseInt(id));
+                                        pic.setImage(type);
+                                        pDao.createDivulgationPagePicture(pic);
+                                        id += "-"+pic.getPictureId();
+                                    }
 
 
                                 /* para inserir o nome das imagens de serviço é 
@@ -116,7 +137,7 @@ public class doImageUpload extends HttpServlet {
                                  * proximo passo por enquanto fica como o id 
                                  */
 
-                                String name = id +".jpg";
+                                String name = id + ".jpg";
                                 //Split com escape \\ para \\
                                 String split[] = name.split("\\\\");
 
@@ -153,7 +174,7 @@ public class doImageUpload extends HttpServlet {
             /*
              * Em vez de redirecionar a pop-up é fechada
              */
-             PrintWriter out = response.getWriter();
+            PrintWriter out = response.getWriter();
             out.println("<!DOCTYPE html>");
             out.println("<html><body>Imagem enviada com sucesso</body></html>  ");
 

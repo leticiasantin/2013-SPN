@@ -3,6 +3,7 @@
 <jsp:useBean id="dPage" class="br.uel.entity.DivulgationPage" scope="request"/>
 <jsp:useBean id="user" class="br.uel.entity.User" scope="session"/>
 <jsp:useBean id="category" class="br.uel.entity.Category"/>
+<jsp:useBean id="picture" class="br.uel.entity.Picture"/>
 <c:choose>
     <c:when test="${dPage.profileId != '0'}">
         <c:if test="${not empty owner}">
@@ -40,6 +41,14 @@
                 <br/>
             </c:if>
 
+        </c:forEach>
+                <hr><hr>
+        <c:forEach var="picture" items="${dPage.pictures}" varStatus="index">
+            <img width="200" height="200" src="imagens/pages/${picture.pageId}-${picture.pictureId}.jpg">
+            <c:if test="${index.count == 5}">
+                <br/>
+            </c:if>
+            
         </c:forEach>
 
 

@@ -8,10 +8,10 @@
 <c:choose>
     <c:when test="${not empty param.serviceId}">
         <c:choose>
-            <c:when test="${not empty param.provider}">
+            <c:when test="${param.userType eq 'p'}">
                 <jsp:include page="forms/providerEvaluation.jsp?serviceId=${param.serviceId}"/>
             </c:when>
-            <c:when test="${not empty param.client}">
+            <c:when test="${param.userType eq 'c'}">
                 <jsp:include page="forms/clientEvaluation.jsp?serviceId=${param.serviceId}"/>
             </c:when>
             <c:otherwise>

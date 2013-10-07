@@ -36,4 +36,9 @@ $(document).ready(function() {
         $("#c").val('doLoadDivulgationPage');
         $("#formHeader").submit();
     });
+    $("#completed").click(function() {
+        $("#c").val('doServiceCrud');
+        $("#m").val('completedServicesList');
+        $("#formHeader").submit();
+    });
 });

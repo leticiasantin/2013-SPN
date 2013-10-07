@@ -14,6 +14,8 @@
         <li id="solicitation">Solicitações Pendentes</li>
 
         <li id="evaluation">Avaliações Pendentes</li>
+     
+        <li id="completed">Serviços Concluídos</li>
 
         <li id="category">Minhas Categorias</li>
 

@@ -35,7 +35,7 @@
         
         <a href="userCrud.jsp">Cadastrar usuário</a>             
          
-        
+        <a href="Controller?c=doServiceCrud&m=listCompletedService">teste</a>
         
       </body>
        

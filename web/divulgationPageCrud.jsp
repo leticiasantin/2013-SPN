@@ -43,6 +43,9 @@
                     <td>
                         Fotos de Divulgação
                     </td>
+                    <td>
+                         <a href="javascript:openPopup('imageUpload.jsp?type=page&id=${dPage.profileId}');">Inserir Foto</a>
+                    </td>
                 </tr>
             </table>
 

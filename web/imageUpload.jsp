@@ -14,7 +14,7 @@
     </head>
     <body>
         <c:choose>
-            <c:when test="${param.type eq 'p' or param.type eq 's'}">
+            <c:when test="${param.type eq 'p' or param.type eq 's' or param.type eq 'page'}">
                 <form action="doImageUpload" enctype="multipart/form-data" method="post">
                     <label for="file">Arquivo:</label> 
                     <input type="hidden" id="type" name="type" value="${param.type}" />

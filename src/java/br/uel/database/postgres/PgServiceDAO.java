@@ -7,7 +7,9 @@ package br.uel.database.postgres;
 import br.uel.database.DAOException;
 import br.uel.database.DAOFactory;
 import br.uel.database.ServiceDAO;
+import br.uel.entity.CompletedService;
 import br.uel.entity.Service;
+import br.uel.entity.ServiceEvaluation;
 import br.uel.log.Logger;
 import java.sql.Connection;
 import java.sql.Date;
@@ -23,11 +25,11 @@ import java.util.logging.Level;
  * @author leticia
  */
 public class PgServiceDAO extends ServiceDAO {
-
+    
     public PgServiceDAO(DAOFactory daoFactory_) {
         daoFactory = daoFactory_;
     }
-
+    
     @Override
     public void create(Service service) {
         try {
@@ -42,28 +44,28 @@ public class PgServiceDAO extends ServiceDAO {
             ResultSet rs = ps.executeQuery();
             conn.close();
         } catch (SQLException ex) {
-           
+            
         }
-
-
+        
+        
     }
-
+    
     @Override
     public List<Service> pendencesListAsProvider(int pId) {
-        Logger.getInstance().setLog("listas provicer"+pId);
+        Logger.getInstance().setLog("listas provicer" + pId);
         ArrayList<Service> pList = new ArrayList();
         try {
-            String query = " SELECT s.*,u.name as client_name, u.street || ' nº '||u.number|| ', '|| u.complements||\n" +
-            " ' <br/> '||u.neighborhood || ', ' || u.city || '-'||u.state as client_address "
-                            + " FROM spn.service s, spn.user u "
-                            + " WHERE s.provider_id=? AND s.provider_response_dat IS NULL" +
-                                " AND u.status=true and u.user_id=s.client_id";
+            String query = " SELECT s.*,u.name as client_name, u.street || ' nº '||u.number|| ', '|| u.complements||\n"
+                    + " ' <br/> '||u.neighborhood || ', ' || u.city || '-'||u.state as client_address "
+                    + " FROM spn.service s, spn.user u "
+                    + " WHERE s.provider_id=? AND s.provider_response_dat IS NULL"
+                    + " AND u.status=true and u.user_id=s.client_id";
             Connection conn = daoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, pId);
             ResultSet rs = ps.executeQuery();
             Service service;
-            while (rs.next()){
+            while (rs.next()) {
                 service = this.getService(rs);
                 service.setClientName(rs.getString("client_name"));
                 service.setClientAddress(rs.getString("client_address"));
@@ -75,16 +77,15 @@ public class PgServiceDAO extends ServiceDAO {
         }
         return pList;
     }
-
-   
+    
     @Override
     public List<Service> pendencesListAsClient(int cId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-     @Override
+    @Override
     public void rejectSolicitation(Service service) {
-         Logger.getInstance().setLog("reject Solicitation : sId="+service.getServiceId()+"  reason= "+service.getReasonForCancellation());
+        Logger.getInstance().setLog("reject Solicitation : sId=" + service.getServiceId() + "  reason= " + service.getReasonForCancellation());
         try {
             String query = "  UPDATE spn.service SET provider_response_dat='NOW', status=false, "
                     + "  reason_for_cancellation=? WHERE service_id=?;";
@@ -98,7 +99,7 @@ public class PgServiceDAO extends ServiceDAO {
             throw new DAOException(ex.getMessage(), ex.getCause());
         }
     }
-
+    
     @Override
     public void acceptSolicitation(Service service) {
         try {
@@ -116,8 +117,7 @@ public class PgServiceDAO extends ServiceDAO {
             throw new DAOException(ex.getMessage(), ex.getCause());
         }
     }
-
-
+    
     private Service getService(ResultSet rs) throws SQLException {
         Service s = new Service();
         s.setServiceId(rs.getInt("service_id"));
@@ -134,56 +134,133 @@ public class PgServiceDAO extends ServiceDAO {
         s.setPrice(String.valueOf(rs.getFloat("price")));
         return s;
     }
-
+    
     @Override
     public List<Service> listNotAssessedClient(int clientId) {
-         ArrayList<Service> services = new ArrayList();
+        ArrayList<Service> services = new ArrayList();
         try {
             String query = "SELECT s.*, u.name as provider_name FROM spn.service s, spn.user u "
-                        + " WHERE s.client_id=? and s.finish_date < 'TODAY' AND "
-                            + " s.service_id NOT IN (SELECT service_id from spn.service_evaluation) "
-                            + " AND u.user_id=s.provider_id";
-             Connection conn = daoFactory.getConnection();
-                PreparedStatement ps = conn.prepareStatement(query);
-                ps.setInt(1,clientId);
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()){
-                    Service s = this.getService(rs);
-                    s.setProviderName(rs.getString("provider_name"));
-                   services.add(s);
-                }
+                    + " WHERE s.client_id=? and s.finish_date < 'TODAY' AND "
+                    + " s.service_id NOT IN (SELECT service_id from spn.service_evaluation) "
+                    + " AND u.user_id=s.provider_id";
+            Connection conn = daoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, clientId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Service s = this.getService(rs);
+                s.setProviderName(rs.getString("provider_name"));
+                services.add(s);
+            }
             conn.close();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(PgServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-         return services;
+        return services;
     }
-
+    
     @Override
     public List<Service> listNotAssessedProvider(int providerId) {
-      ArrayList<Service> services = new ArrayList();
+        ArrayList<Service> services = new ArrayList();
         try {
             String query = "SELECT s.*, u.name AS client_name, u.street || ' nº '||u.number|| ', '|| u.complements||' <br/> '||u.neighborhood || ', ' || u.city || '-'||u.state as client_address "
                     + " FROM spn.service s,spn.user u "
                     + " WHERE  provider_id=? and service_id IN "
                     + " (SELECT service_id FROM spn.service_evaluation "
-                        + "WHERE p_dat_assessment IS NULL ) "
+                    + "WHERE p_dat_assessment IS NULL ) "
                     + " and u.user_id=s.client_id";
-             Connection conn = daoFactory.getConnection();
-                PreparedStatement ps = conn.prepareStatement(query);
-                ps.setInt(1,providerId);
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()){
-                    Service s = this.getService(rs);
-                    s.setClientName(rs.getString("client_name"));
-                    s.setClientAddress(rs.getString("client_address"));
-                    services.add(s);
-                }
+            Connection conn = daoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, providerId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Service s = this.getService(rs);
+                s.setClientName(rs.getString("client_name"));
+                s.setClientAddress(rs.getString("client_address"));
+                services.add(s);
+            }
             conn.close();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(PgServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-         return services;
+        return services;
+    }
+    
+    @Override
+    public List<CompletedService> completedServiceProviderList(int providerId) {
+        List<CompletedService> completedServices = new ArrayList();
+        try {
+            
+            String query = "SELECT serv.*, u.name AS client_name,u.street || ' nº '||u.number|| "
+                    + " ', '|| u.complements||' <br/> '|| u.neighborhood || ', ' || u.city || "
+                    + " '-'||u.state as client_address FROM spn.user u,"
+                    + " (SELECT * FROM spn.service s NATURAL JOIN spn.service_evaluation se "
+                    + " WHERE s.provider_id=? AND se.c_dat_assessment IS NOT NULL AND "
+                    + " se.p_dat_assessment IS NOT NULL) AS serv WHERE u.user_id = serv.client_id";
+            Connection conn = daoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, providerId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                CompletedService compServ = new CompletedService();
+                Service service = this.getService(rs);
+                service.setClientName("client_name");
+                service.setClientAddress("client_address");
+                compServ.setService(service);
+                compServ.setServiceEvaluation(this.getServiceEvaluation(rs));
+                completedServices.add(compServ);
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(PgServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return completedServices;
+    }
+    
+    @Override
+    public List<CompletedService> completedServiceClientList(int providerId) {
+     List<CompletedService> completedServices = new ArrayList();
+        try {
+            
+            String query = "SELECT serv.*, u.name AS provider_name, u.city || "
+                    + " '-'||u.state as provider_address FROM spn.user u,"
+                    + " (SELECT * FROM spn.service s NATURAL JOIN spn.service_evaluation se "
+                    + " WHERE s.client_id=? AND se.c_dat_assessment IS NOT NULL AND "
+                    + " se.p_dat_assessment IS NOT NULL) AS serv WHERE u.user_id = serv.provider_id";
+            Connection conn = daoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, providerId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                CompletedService compServ = new CompletedService();
+                Service service = this.getService(rs);
+                service.setProviderName("provider_name");
+                service.setProviderAddress("provider_address");
+                compServ.setService(service);
+                compServ.setServiceEvaluation(this.getServiceEvaluation(rs));
+                completedServices.add(compServ);
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(PgServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return completedServices;    
+    
+    }
+
+    private ServiceEvaluation getServiceEvaluation(ResultSet rs) throws SQLException {
+        ServiceEvaluation se = new ServiceEvaluation();
+        se.setServiceId(rs.getInt("service_id"));
+        se.setcComment(rs.getString("c_comment"));
+        se.setcPrice((int) rs.getFloat("c_price"));
+        se.setcQualityOfCare(rs.getInt("c_quality_of_care"));
+        se.setcQualityOfService(rs.getInt("c_quality_of_service"));
+        se.setcRealFinishDate(rs.getString("c_real_finish_date"));
+        se.setcRealStartDate(rs.getString("c_real_start_date"));
+        se.setcRespectForDeadlines(rs.getInt("c_respect_for_deadlines"));
+        se.setpAppropriatePayment(rs.getInt("p_appropriate_payment"));
+        se.setpComment(rs.getString("p_comment"));
+        se.setpComunicationWithClient(rs.getInt("p_communication_with_client"));
+        se.setpMaterialsSupply(rs.getInt("p_materials_supply"));
+        return se;
     }
 }

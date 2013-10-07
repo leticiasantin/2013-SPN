@@ -18,12 +18,12 @@ public class DivulgationPage {
     private int providerId;
     private String description;
     private User user;
-    private List<String> pictures;
+    private List<Picture> pictures;
     private List<Category> categories;
 
     public DivulgationPage() {
         this.profileId = 0;
-        this.pictures = new ArrayList<String>();
+        this.pictures = new ArrayList<Picture>();
         this.categories = new ArrayList<Category>();
     }
     
@@ -53,11 +53,11 @@ public class DivulgationPage {
         this.description = description;
     }
 
-    public List<String> getPictures() {
+    public List<Picture> getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<String> pictures) {
+    public void setPictures(List<Picture> pictures) {
         this.pictures = pictures;
     }
 

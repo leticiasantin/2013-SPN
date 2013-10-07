@@ -36,6 +36,9 @@ public class doServiceEvaluation extends Command {
         } else if (m.equalsIgnoreCase("providerEvaluation")) {
             setProviderEvaluation();
         }
+        else if(m.equals("form")) {
+            setForm();
+        }
     }
     
     private void listPendingEvaluation() {
@@ -111,4 +114,10 @@ public class doServiceEvaluation extends Command {
         }
         return sEv;
     }
+
+    private void setForm() {
+        templateView.setContent("evaluation");
+        super.dispatcher();
+        
+      }
 }

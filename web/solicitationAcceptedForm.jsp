@@ -28,9 +28,8 @@
                 
                 $("#submit").click(function(){
                    $("#acceptForm").submit();
-                   window.close();
+                  /* window.close();*/
                 });
-
                
             });
             function checkDates() {

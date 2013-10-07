@@ -1,8 +1,6 @@
 package br.uel.database;
 
-import br.uel.entity.Service;
 import br.uel.entity.ServiceEvaluation;
-import java.util.List;
 
 /**
  *

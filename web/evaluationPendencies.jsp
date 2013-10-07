@@ -36,7 +36,7 @@
                     <td headers="pName">${service.providerName}</td>
                     <td headers="startDate">${service.startDate}</td>
                     <td headers="finishDate">${service.finishDate}</td>
-                    <td headers="evaluation"><a href="javascript:openPopup('evaluation.jsp?serviceId=${service.serviceId}&client=true')"> <img src="icons/evaluate.png"/></a></td>   
+                    <td headers="evaluation"><a href="Controller?c=doServiceEvaluation&m=form&type=s&serviceId=${service.serviceId}&userType=c"> <img src="icons/evaluate.png"/></a></td>   
                 </tr>
             </c:forEach>
         </table>
@@ -71,7 +71,7 @@
                     <td headers="description">${service.description}</td>
                     <td headers="startDate">${service.startDate}</td>
                     <td headers="finishDate">${service.finishDate}</td>
-                    <td headers="evaluation"><a href="javascript:openPopup('evaluation.jsp?serviceId=${service.serviceId}&provider=true');"> <img src="icons/evaluate.png"/></a></td>  
+                    <td headers="evaluation"><a href="Controller?c=doServiceEvaluation&m=form&type=s&serviceId=${service.serviceId}&userType=p"><img src="icons/evaluate.png"/></a></td>  
                 </tr>
             </c:forEach>
         </table>

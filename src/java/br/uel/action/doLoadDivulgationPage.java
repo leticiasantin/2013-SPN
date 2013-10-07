@@ -8,9 +8,11 @@ import br.uel.controller.Command;
 import br.uel.database.CategoryDAO;
 import br.uel.database.DAOFactory;
 import br.uel.database.DivulgationPageDAO;
+import br.uel.database.PictureDAO;
 import br.uel.database.UserDAO;
 import br.uel.entity.Category;
 import br.uel.entity.DivulgationPage;
+import br.uel.entity.Picture;
 import br.uel.entity.User;
 import br.uel.log.Logger;
 import java.util.List;
@@ -66,6 +68,18 @@ public class doLoadDivulgationPage extends Command {
             if (!list.isEmpty()) {
                 profile.setCategories(list);
             }
+            /*
+             * Carrega as fotos do Perfil
+             * 
+             */
+            PictureDAO picDao;
+            picDao = (PictureDAO) factory.getDAOObject(DAOFactory.DAODataType.PictureDAO);
+            List<Picture> picList = picDao.divulgationPagePictureList(profile.getProfileId());
+            if (!picList.isEmpty()){
+                profile.setPictures(picList);
+            }
+            
+            
         }
         templateView.setTitle("Perfil de Usuário").setContent("divulgationPage").setFooter(null);
         request.setAttribute("dPage", profile);
