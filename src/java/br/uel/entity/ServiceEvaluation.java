@@ -4,6 +4,8 @@
  */
 package br.uel.entity;
 
+import java.util.List;
+
 /**
  *
  * @author leticia
@@ -17,11 +19,13 @@ public class ServiceEvaluation {
     private String cComment;
     private String cRealStartDate;
     private String cRealFinishDate;
-    
+     List<Picture> cPictures;
+
     private int pAppropriatePayment;
     private int pMaterialsSupply;
     private int pComunicationWithClient;
     private String pComment;
+    List<Picture> pPictures;
 
     public int getServiceId() {
         return serviceId;
@@ -118,7 +122,23 @@ public class ServiceEvaluation {
     public void setpComment(String pComment) {
         this.pComment = pComment;
     }
-
     
+    
+    public List<Picture> getcPictures() {
+        return cPictures;
+    }
+
+    public void setcPictures(List<Picture> cPictures) {
+        this.cPictures = cPictures;
+    }
+
+    public List<Picture> getpPictures() {
+        return pPictures;
+    }
+
+    public void setpPictures(List<Picture> pPictures) {
+        this.pPictures = pPictures;
+    }
+ 
     
 }

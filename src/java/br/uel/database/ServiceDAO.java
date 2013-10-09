@@ -9,7 +9,6 @@ import br.uel.entity.Service;
 import java.util.List;
 
 /**
- *
  * @author leticia
  */
 public abstract class ServiceDAO {

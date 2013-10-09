@@ -8,6 +8,7 @@ import br.uel.database.DAOException;
 import br.uel.database.DAOFactory;
 import br.uel.database.ServiceDAO;
 import br.uel.entity.CompletedService;
+import br.uel.entity.Picture;
 import br.uel.entity.Service;
 import br.uel.entity.ServiceEvaluation;
 import br.uel.log.Logger;
@@ -44,7 +45,6 @@ public class PgServiceDAO extends ServiceDAO {
             ResultSet rs = ps.executeQuery();
             conn.close();
         } catch (SQLException ex) {
-            
         }
         
         
@@ -202,7 +202,7 @@ public class PgServiceDAO extends ServiceDAO {
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, providerId);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 CompletedService compServ = new CompletedService();
                 Service service = this.getService(rs);
                 service.setClientName("client_name");
@@ -219,9 +219,8 @@ public class PgServiceDAO extends ServiceDAO {
     
     @Override
     public List<CompletedService> completedServiceClientList(int providerId) {
-     List<CompletedService> completedServices = new ArrayList();
+        List<CompletedService> completedServices = new ArrayList();
         try {
-            
             String query = "SELECT serv.*, u.name AS provider_name, u.city || "
                     + " '-'||u.state as provider_address FROM spn.user u,"
                     + " (SELECT * FROM spn.service s NATURAL JOIN spn.service_evaluation se "
@@ -231,7 +230,7 @@ public class PgServiceDAO extends ServiceDAO {
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, providerId);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 CompletedService compServ = new CompletedService();
                 Service service = this.getService(rs);
                 service.setProviderName("provider_name");
@@ -243,10 +242,10 @@ public class PgServiceDAO extends ServiceDAO {
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(PgServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return completedServices;    
-    
+        return completedServices;
+        
     }
-
+    
     private ServiceEvaluation getServiceEvaluation(ResultSet rs) throws SQLException {
         ServiceEvaluation se = new ServiceEvaluation();
         se.setServiceId(rs.getInt("service_id"));
@@ -261,6 +260,40 @@ public class PgServiceDAO extends ServiceDAO {
         se.setpComment(rs.getString("p_comment"));
         se.setpComunicationWithClient(rs.getInt("p_communication_with_client"));
         se.setpMaterialsSupply(rs.getInt("p_materials_supply"));
+        se.setcPictures(this.getPictures(se.getServiceId(), "client"));
+        Logger.getInstance().setLog("tamanho cPictures: "+se.getcPictures().size());
+        se.setpPictures(this.getPictures(se.getServiceId(), "provider"));
+           Logger.getInstance().setLog("tamanho pPictures: "+se.getpPictures().size());
         return se;
+    }
+    
+    private List<Picture> getPictures(int serviceId, String type) {
+        
+        List<Picture> pictures = new ArrayList();
+        String tableName = null;
+        try {
+            if (type.equalsIgnoreCase("client")) {
+                tableName = "spn.service_client_picture";
+            } else if (type.equalsIgnoreCase("provider")) {
+                tableName = "spn.service_provider_picture";
+            }
+            
+            String query = "SELECT * FROM " + tableName + " WHERE service_id=?;";
+            Logger.getInstance().setLog("carrega de "+tableName);
+            Connection conn = daoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, serviceId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Picture picture = new Picture();
+                picture.setServiceId(serviceId);
+                picture.setPictureId(rs.getInt("picture_id"));
+                picture.setImage(rs.getString("path"));
+                pictures.add(picture);
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(PgServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pictures;
     }
 }

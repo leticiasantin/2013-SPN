@@ -1,0 +1,7 @@
+﻿INSERT INTO spn."user"( name, login, password, city, state, gender)
+    VALUES ('Maria da Conceiçao','mc',md5('mc'), 'Tubarão','SC','f'),
+    ('José Nogueira', 'jn',md5('jn'),'Londrina','PR','m'),
+    ('Antonio Carlos', 'ac', md5('ac'),'Londrina','PR','m');
+
+
+

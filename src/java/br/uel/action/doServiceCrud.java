@@ -31,7 +31,7 @@ public class doServiceCrud extends Command {
         if (m.equalsIgnoreCase("solicitationPendeciesList")) {
             solicitationPendenciesList();
         } else if (m.equalsIgnoreCase("completedServicesList")) {
-            listCompletedService();
+            completedServiceLists();
         } else if (m.equalsIgnoreCase("option3")) {
         }
     }
@@ -47,19 +47,21 @@ public class doServiceCrud extends Command {
         if (list.size() > 0) {
             templateView.setMessage("Você tem " + list.size() + " pendencias");
         } else {
-            templateView.setMessage("Você não Solicitações Pendentess");
-
+            templateView.setMessage("Você não possui solicitações Pendentess");
         }
         templateView.setContent("solicitationPendencies");
         super.dispatcher();
     }
 
-    private void listCompletedService() {
+    private void completedServiceLists() {
         User u = (User) request.getSession().getAttribute("user");
         ServiceDAO sDao;
         DAOFactory factory = DAOFactory.getDAOFactory();
         sDao = (ServiceDAO) factory.getDAOObject(DAOFactory.DAODataType.ServiceDAO);
         List<CompletedService> asProviderList = sDao.completedServiceProviderList(u.getUserId());
+        
+        
+        
         List<CompletedService> asClientList = sDao.completedServiceClientList(u.getUserId());
         request.setAttribute("asProviderList",asProviderList);
         request.setAttribute("asClientList",asClientList);
