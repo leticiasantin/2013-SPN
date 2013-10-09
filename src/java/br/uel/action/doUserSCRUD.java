@@ -34,6 +34,9 @@ public class doUserSCRUD extends Command {
             listDeletedUsers();
         } else if (m.equalsIgnoreCase("loginExist")) {
             loginExist();
+        
+        } else if (m.equalsIgnoreCase("all")) {
+           usersList();
         }
        
 
@@ -192,5 +195,14 @@ public class doUserSCRUD extends Command {
         if (uDao.userExistsByLogin(login)) {
             throw new Exception();
         }
+    }
+
+    private void usersList() {
+        UserDAO uDao;
+        DAOFactory factory = DAOFactory.getDAOFactory();
+        uDao = (UserDAO) factory.getDAOObject(DAOFactory.DAODataType.UserDAO);
+        List<User> users = uDao.list(true);
+        request.setAttribute("users", users);
+        templateView.setContent("usersList");
     }
 }
