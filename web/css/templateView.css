@@ -1,0 +1,63 @@
+/* 
+    Document   : mainView
+    Created on : Sep 12, 2013, 8:53:42 PM
+    Author     : leticia
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+body{
+    /*background-color:gray;*/
+    margin:0;
+}
+
+.header{
+    height:50px;
+    /*background-color:orangered;*/
+}
+
+.content-page{
+    /*background-color: yellow;*/
+    float:left;
+    width:100%;
+}
+
+#content,#menu{
+    float: left;
+    min-height: 300px;
+}
+
+#menu{
+    /*background-color:green;*/
+    width:15%;
+    float:left;
+}
+
+#content{
+    /*background-color:background;*/
+    float:left;
+    width:85%;
+}
+
+#content #message {
+    background-color:yellowgreen;
+    max-width: 50%;
+    min-height: 60px;
+}
+
+#footer{
+    /*background-color:red;*/
+    border: black 2px solid;
+    width:100%;
+    float: bottom;
+}
+
+#extra{
+    /*background-color: turquoise;*/
+    float:inside;
+}
+
+

@@ -1,45 +1,20 @@
-<%-- 
-    Document   : usercrud
-    Created on : 01/08/2013, 14:30:45
-    Author     : dskaster
---%>
+<script  src="js/jquery.js"></script>
+<script  src="js/jquery/js/jquery-ui.js"></script>        
+<link type="text/css" href="js/jquery/css/south-street/jquery-ui.css" rel="stylesheet" />
+<script src="js/toMD5.js"></script>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Cadastro de Usuários</title>
-        <script  src="js/jquery-2.0.3.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('reset').click(function() {
-                    $('password').val("");
-                    $('login').val("");
-                    $('name').val("");
-
-                });
-            });
-        </script> 
-
-    </head>
-    <body>
-        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-        <jsp:useBean id="user" class="br.uel.entity.User" scope="request"/>
-        <p> <h1>Cadastro de Usuários </h1> </p>
-    <form name="formUser" method="post" action="ServeletController">
-        <input type="hidden" id="uid" name="uid" value="${user.uid}" />  
-        Nome <input type="text" size="50" name="name" value="${user.name}"> <br />
-        Login <input type="text" size="15" name="login" value="${user.login}"> <br />
-        Senha <input type="password" size="8" name="password"> <br />
-        <input type="submit" value="Ok"/>
-        <input type="button" id="reset" value="Limpar"/>
-        
-       
-        
-        <input type="hidden" value="doUserSCRUD" id="c" name="c" />
-        <input type="hidden" value="s" id="m" name="m" />
-        user name = ${user.name}
-    </form>
-</body>
-</html>
+<jsp:useBean id="user" class="br.uel.entity.User" scope="session"/>
+<p><h1>Cadastro de Usu�rios </h1> </p>
+<form name="formUser" method="post" action="Controller">
+    <jsp:include page = "forms/user.jsp?edit=true" /> 
+   
+                <div id="img">
+                    <img src="imagens/profiles/${user.userId}.jpg" width="200" height="200"/><br/>
+                    <a href="javascript:openPopup('imageUpload.jsp?type=p&id=${user.userId}');">Alterar Foto</a>
+                </div>  
+           
+    <input type="submit" id="submit" value="Ok" />
+    <input type="reset" id="reset" value="Limpar"/>
+    <input type="hidden" value="doUserSCRUD" id="c" name="c" />
+    <input type="hidden" value="save" id="m" name="m" />
+</form>

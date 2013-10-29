@@ -1,0 +1,27 @@
+
+INSERT INTO spn.category(name)
+	VALUES ('Pintura'),('Jardinagem'),('Marcenaria'),('Informática'),('Limpeza'),('Hidraúlica');
+
+INSERT INTO spn.category (parent_id,name)
+	VALUES (16,'Automotiva'),
+	       (16,'Móveis'),
+	       (16,'Imóveis'),
+	       (17,'Casa'),
+	       (17,'Empresa'),
+	       (18,'Fazer Móveis'),
+	       (18,'Montagem'),
+	       (18,'Conserto'),
+	       (19,'Software'),
+	       (19,'Hardware'),
+	       (20,'Diarista'),
+	       (20,'Lote Vazio'),
+	       (20, 'Instalação'),
+	       (20, 'Reparação');
+
+INSERT INTO spn.provider VALUES (61);
+
+INSERT INTO spn.prov_has_cat(provider_id,cat_id)
+	VALUES (61,20),
+	       (61,28);
+
+INSERT INTO spn.category (parent_id,name) VALUES (30,'Formatação')

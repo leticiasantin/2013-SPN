@@ -1,0 +1,24 @@
+﻿
+INSERT INTO spn.category(name)
+	VALUES ('Pintura'),('Jardinagem'),('Marcenaria'),('Informática'),('Limpeza'),('Hidraúlica');
+
+INSERT INTO spn.category (parent_id,name)
+	VALUES ((SELECT cat_id FROM spn.category WHERE name='Pintura'),'Pintura Automotiva'),
+	       ((SELECT cat_id FROM spn.category WHERE name='Pintura'),'Pintura de Móveis'),
+	       ((SELECT cat_id FROM spn.category WHERE name='Pintura'),'Pintura de Imóveis'),
+	       ((SELECT cat_id FROM spn.category WHERE name='Jardinagem'),'Jardinagem em Casas'),
+	       ((SELECT cat_id FROM spn.category WHERE name='Jardinagem'),'Jardinagem em Empresas'),
+	       ((SELECT cat_id FROM spn.category WHERE name='Informática'),'Software'),
+	       ((SELECT cat_id FROM spn.category WHERE name='Informática'),'Hardware'),
+	       ((SELECT cat_id FROM spn.category WHERE name='Limpeza'),'Diarista'),
+	       ((SELECT cat_id FROM spn.category WHERE name='Limpeza'),'Lote Vazio')
+	  
+INSERT INTO spn.provider VALUES (61);
+
+INSERT INTO spn.prov_has_cat(provider_id,cat_id)
+	VALUES (61,20),
+	       (61,28);
+
+INSERT INTO spn.category (parent_id,name) VALUES ((SELECT cat_id FROM spn.category WHERE name='Software'),'Formatação')
+
+SELECT * FROM spn.category

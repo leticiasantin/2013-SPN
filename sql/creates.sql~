@@ -1,0 +1,74 @@
+-- criação do schema
+
+CREATE SCHEMA spn
+  AUTHORIZATION leticiacsantin;
+
+COMMENT ON SCHEMA spn
+  IS 'Trabalho de Banco de Dados 3º bimestre 2013';
+
+
+--relação spn.user
+CREATE TABLE spn."user"
+(
+  user_id serial NOT NULL,
+  name character varying(50),
+  login character varying(15) NOT NULL,
+  password character(32) NOT NULL,
+  dt_of_birth character(10),
+  city character varying(30),
+  state character(2),
+  street character varying(30),
+  "number" integer,
+  complements character varying(10),
+  neighborhood character varying(15),
+  zip_code character(8),
+  status boolean DEFAULT true,
+  gender "char" NOT NULL DEFAULT 'M'::"char",
+  CONSTRAINT user_pkey PRIMARY KEY (user_id ),
+  CONSTRAINT user_login_key UNIQUE (login )
+)
+
+--relação spn.client
+CREATE TABLE spn.client
+(
+  client_id integer NOT NULL,
+  status boolean,
+  CONSTRAINT client_pkey PRIMARY KEY (client_id ),
+  CONSTRAINT client_client_id_fkey FOREIGN KEY (client_id)
+      REFERENCES spn."user" (user_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+--relação spn.provider
+CREATE TABLE spn.provider
+(
+  provider_id integer NOT NULL,
+  status boolean,
+  CONSTRAINT provider_pkey PRIMARY KEY (provider_id ),
+  CONSTRAINT fk_provider_user FOREIGN KEY (provider_id)
+      REFERENCES spn."user" (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+
+--relação service
+
+CREATE TABLE spn.service
+(
+  service_id serial NOT NULL,
+  client_id integer NOT NULL,
+  provider_id integer NOT NULL,
+  cli_fb_comment character varying(256),
+  cli_fb_note smallint,
+  pro_fb_comment character varying(256),
+  pro_fb_note smallint,
+  is_completed boolean,
+  CONSTRAINT service_pkey PRIMARY KEY (service_id , client_id , provider_id ),
+  CONSTRAINT fk_ser_cli FOREIGN KEY (client_id)
+      REFERENCES spn.client (client_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_ser_pro FOREIGN KEY (provider_id)
+      REFERENCES spn.provider (provider_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+
+

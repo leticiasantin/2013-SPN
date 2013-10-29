@@ -1,0 +1,6 @@
+CREATE VIEW profile_data AS
+SELECT u.user_id, profile.description, profile.picture
+FROM spn.user u INNER JOIN (
+	SELECT * FROM spn.provider pr INNER JOIN spn.profile p ON 
+		p.profile_id=pr.profile_id WHERE pr.provider_id=32
+ )  AS profile ON u.user_id=profile.provider_id 

@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <servlet>
-        <servlet-name>ServeletController</servlet-name>
-        <servlet-class>br.uel.controller.ServeletController</servlet-class>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>br.uel.controller.Controller</servlet-class>
     </servlet>
-    <filter>
-        <filter-name>ConnectionFilter</filter-name>
-        <filter-class>br.uel.filter.ConnectionFilter</filter-class>
-    </filter>
+    <servlet>
+        <servlet-name>doImageUpload</servlet-name>
+        <servlet-class>br.uel.action.doImageUpload</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetTimeServlet</servlet-name>
+        <servlet-class>br.uel.action.GetTimeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>ServeletController</servlet-name>
-        <url-pattern>/ServeletController</url-pattern>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/Controller</url-pattern>
     </servlet-mapping>
-    <filter-mapping>
-        <filter-name>ConnectionFilter</filter-name>
-        <url-pattern>/ServeletController</url-pattern>
-    </filter-mapping>
+    <servlet-mapping>
+        <servlet-name>doImageUpload</servlet-name>
+        <url-pattern>/doImageUpload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetTimeServlet</servlet-name>
+        <url-pattern>/get-time</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            100000
         </session-timeout>
     </session-config>
 </web-app>
