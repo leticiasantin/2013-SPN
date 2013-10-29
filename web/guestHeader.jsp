@@ -10,6 +10,11 @@
         $("#m").val('show');
         $("#formHeader").submit();
         });
+        $("#categories").click(function(){
+        $("#c").val('doCategoryCrud');
+        $("#m").val('show');
+        $("#formHeader").submit();
+        });
     });
 </script>
 
@@ -17,6 +22,7 @@
 <table style=" border: black 2px;">
     <tr>
         <td id="searchProviders">Buscar Prestadores</td>
+        <td id="categories">Categorias</td>
         
     </tr>
 </table>

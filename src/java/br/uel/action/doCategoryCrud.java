@@ -49,6 +49,9 @@ public class doCategoryCrud extends Command {
         } else if (m.equalsIgnoreCase("listUserCategories")) {
             listUserCategory();
         }
+         else if (m.equalsIgnoreCase("show")) {
+            show();
+        }
     }
 
     private void listUserCategory() throws ServletException, IOException {
@@ -125,5 +128,11 @@ public class doCategoryCrud extends Command {
         DAOFactory factory = DAOFactory.getDAOFactory();
         cDao = (CategoryDAO) factory.getDAOObject(DAOFactory.DAODataType.CategoryDAO);
         cDao.delete(cId);
+    }
+
+    private void show() {
+       this.list();
+       templateView.setContent("categoriesPage");
+       super.dispatcher();
     }
 }

@@ -33,8 +33,8 @@ public class PgProviderDAO extends ProviderDAO {
     @Override
     public void create(int pId) throws DAOException {
         try {
-            String query = "INSERT INTO spn.provider(provider_id)"
-                    + " VALUES (?);";
+            String query = "INSERT INTO spn.provider(provider_id,dat)"
+                    + " VALUES (?,'NOW');";
             Connection conn = daoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, pId);
@@ -111,7 +111,7 @@ public class PgProviderDAO extends ProviderDAO {
     @Override
     public void connect(Integer userId, int catId) {
         try {
-            String query = "INSERT INTO spn.prov_has_cat VALUES(?,?);";
+            String query = "INSERT INTO spn.prov_has_cat VALUES(?,?,'NOW');";
             Connection conn = daoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, userId);

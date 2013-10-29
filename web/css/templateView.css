@@ -10,17 +10,17 @@ root {
     display: block;
 }
 body{
-    background-color:gray;
+    /*background-color:gray;*/
     margin:0;
 }
 
 .header{
     height:50px;
-    background-color:orangered;
+    /*background-color:orangered;*/
 }
 
 .content-page{
-    background-color: yellow;
+    /*background-color: yellow;*/
     float:left;
     width:100%;
 }
@@ -31,13 +31,13 @@ body{
 }
 
 #menu{
-    background-color:green;
+    /*background-color:green;*/
     width:15%;
     float:left;
 }
 
 #content{
-    background-color:background;
+    /*background-color:background;*/
     float:left;
     width:85%;
 }
@@ -49,14 +49,14 @@ body{
 }
 
 #footer{
-    background-color:red;
+    /*background-color:red;*/
     border: black 2px solid;
     width:100%;
     float: bottom;
 }
 
 #extra{
-    background-color: turquoise;
+    /*background-color: turquoise;*/
     float:inside;
 }
 

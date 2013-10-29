@@ -9,10 +9,10 @@
 <script src="js/toMD5.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-     $("#submit").click(function() {
-        $("#password").val(CryptoJS.MD5($("#password").val()));
-        $("#formLogin").submit();
-      });
+        $("#submit").click(function() {
+            $("#password").val(CryptoJS.MD5($("#password").val()));
+            $("#formLogin").submit();
+        });
     });
 </script>
 
@@ -21,9 +21,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>SPN - SERVICE PROVIDER NETWORK</title>
-         <script src="js/default.js"></script>
+        <script src="js/default.js"></script>
+      
     </head>
-   
+
     <body>
         <form method="post" id="formLogin" name="formLogin" action="Controller">
             Login <input type="text" size="20" name="login"><br />
@@ -32,11 +33,9 @@
             <input type="hidden" value="doLog" id="c" name="c" />
             <input type="hidden" value="login" id="m" name="m" />
         </form>
-        
         <a href="userCrud.jsp">Cadastrar usuário</a>             
-         
-        <a href="Controller?c=doServiceCrud&m=listCompletedService">teste</a>
-        
-      </body>
-       
+        <a href="Controller?c=doLoadCategoryPage&catId=5">teste</a>
+        <hr><hr>
+    </body>
+
 </html>
